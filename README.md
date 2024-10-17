@@ -14,10 +14,8 @@ will be updated later
 
 will be updated later
 
-
-## Name
-Nginx Admin panel
-
+## Usage
+will be updated later
 
 ## Visuals
 will be updated later
