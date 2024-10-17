@@ -14,13 +14,15 @@ will be updated later
 
 will be updated later
 
-## Usage
-will be updated later
 
 ## Visuals
 will be updated later
 
 ## Installation
+will be updated later
+
+
+## Usage
 will be updated later
 
 ## Support
