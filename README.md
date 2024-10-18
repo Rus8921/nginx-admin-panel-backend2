@@ -3,7 +3,7 @@
 
 ## Description
 
-This repository of the our project contains the code for frontend part, you can find research part here https://gitlab.pg.innopolis.university/antiddos/research and fronted part here https://gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-frontend
+This repository of the our project contains the code for frontend part, you can find research part here https://gitlab.pg.innopolis.university/antiddos/research
 
 
 
