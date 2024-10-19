@@ -1,0 +1,36 @@
+{
+  "websites": [
+    {
+      "id": 0,
+      "name": "First website",
+      "url": "somedomain.com/",
+      "ipCount": 3,
+      "upstreamsCount": 3,
+      "status": "active"
+    },
+    {
+      "id": 1,
+      "name": "Second website",
+      "url": "anotherdomain.com/",
+      "ipCount": 5,
+      "upstreamsCount": 2,
+      "status": "inactive"
+    },
+    {
+      "id": 2,
+      "name": "Another website",
+      "url": "somedomain.com/",
+      "ipCount": 7,
+      "upstreamsCount": 1,
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "name": "One more website",
+      "url": "one.more.very.very.long.domain/",
+      "ipCount": 15,
+      "upstreamsCount": 4,
+      "status": "active"
+    }
+  ]
+}
