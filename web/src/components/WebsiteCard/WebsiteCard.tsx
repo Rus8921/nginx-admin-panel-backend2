@@ -1,9 +1,10 @@
 import Card from "../Card/Card";
 import Status from "../Status/Status";
 import "./WebsiteCard.css"
+import { WebsiteInterface } from "../../types";
 
-function WebsiteCard() {
-  let { name, url, ipCount, upstreamsCount, status } = { name: "website name", url: "some.url.com", ipCount: 3, upstreamsCount: 3, status: "active" };
+function WebsiteCard({ data }: { data: WebsiteInterface }) {
+  let { name, url, ipCount, upstreamsCount, status } = data;
 
   return (
     <Card>
