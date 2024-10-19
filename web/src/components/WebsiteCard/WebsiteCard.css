@@ -1,0 +1,19 @@
+.WebsiteCard {
+  width: 428px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+.WebsiteCard>div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stats {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}

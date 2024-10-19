@@ -4,9 +4,8 @@ body {
   font-weight: normal;
   font-stretch: normal;
   font-style: normal;
-  line-height: 0em;
+  line-height: 1em;
   letter-spacing: 0.07em;
-  /* font-feature-settings: 'ss01'; */
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
