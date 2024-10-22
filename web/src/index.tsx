@@ -16,6 +16,7 @@ import { ServerIdPage } from "./routes/servers/ServerIdPage";
 import { AddServerPage } from "./routes/servers/AddServerPage";
 import { EditServerPage } from "./routes/servers/EditServerPage";
 import { NotFoundErrorPage } from "./routes/errors/404";
+import "./index.css";
 
 // import React from 'react';
 // import ReactDOM from 'react-dom/client';
