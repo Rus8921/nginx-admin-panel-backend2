@@ -1,0 +1,19 @@
+.Status {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.light {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+}
+
+.active {
+  background-color: var(--ok-status);
+}
+
+.inactive {
+  background-color: var(--err-status);
+}

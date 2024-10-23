@@ -1,0 +1,11 @@
+.light-horizontal-line {
+  color: var(--secondary-highlight-color);
+  height: 2px;
+  width: 100%;
+}
+
+.horizontal-line {
+  color: var(--secondary-text-color);
+  height: 2px;
+  width: 100%;
+}
