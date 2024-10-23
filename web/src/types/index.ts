@@ -6,3 +6,7 @@ export interface WebsiteInterface {
   upstreamsCount: number,
   status: "active" | "inactive",
 }
+
+export interface WebsitesDataInterface {
+  websites: WebsiteInterface[],
+}

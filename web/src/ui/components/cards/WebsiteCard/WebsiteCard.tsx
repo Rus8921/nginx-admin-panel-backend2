@@ -1,7 +1,7 @@
-import Card from "../Card/Card";
-import Status from "../Status/Status";
 import "./WebsiteCard.css"
-import { WebsiteInterface } from "../../types";
+import Card from "../Card/Card";
+import Status from "../../text/Status/Status";
+import { WebsiteInterface } from "../../../../types";
 
 function WebsiteCard({ data }: { data: WebsiteInterface }) {
   let { name, url, ipCount, upstreamsCount, status } = data;
