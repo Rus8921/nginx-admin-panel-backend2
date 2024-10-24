@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, redirect, replace } from "react-router-dom";
 import { MainLayout } from "./ui/layouts/MainLayout/MainLayout";
 import { LoginPage } from "./routes/login/LoginPage";
 import { PermissionsPage } from "./routes/permissions/PermissionsPage";
@@ -25,6 +25,17 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     errorElement: <NotFoundErrorPage />,
     children: [
+      {
+        index: true,
+        loader: () => {
+          const user = true;
+          if (!user) {
+            return redirect("/login");
+          } else {
+            return replace("/websites");
+          }
+        },
+      },
       {
         path: "websites",
         children: [
