@@ -1,9 +1,0 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-  body, p, div, h1, h2, h3, span, ul, ol, li, hr {
-    @apply m-0 p-0;
-  }
-}

@@ -17,7 +17,6 @@ import { AddServerPage } from "./routes/servers/AddServerPage";
 import { EditServerPage } from "./routes/servers/EditServerPage";
 import { NotFoundErrorPage } from "./routes/errors/404";
 import "./index.css";
-import "./ui/styles/main.css";
 
 const router = createBrowserRouter([
   {

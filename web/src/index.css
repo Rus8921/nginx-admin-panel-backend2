@@ -6,4 +6,41 @@
   * {
     @apply box-border;
   }
+
+  body, p, div, h1, h2, h3, span, ul, ol, li, hr {
+    @apply m-0 p-0;
+  }
+
+  body {
+    @apply font-roboto text-sm/5 font-normal tracking-normal text-txt-clr antialiased;
+  }
+
+  h1 {
+    @apply font-robotoLogo text-xl/none font-semibold tracking-tighter lowercase whitespace-nowrap text-scndry-clr;
+  }
+
+  h2 {
+    @apply text-lg/5 font-medium tracking-tight capitalize whitespace-nowrap text-scndry-clr;
+  }
+
+  h3 {
+    @apply text-lg/5 font-medium tracking-tight capitalize whitespace-nowrap text-scndry-txt-clr;
+  }
 }
+
+/* to be moved to components */
+/*@layer components {
+   .button-text {
+    @apply text-md/10 font-normal tracking-normal uppercase whitespace-nowrap;
+    //line-height: 1.75em;
+  }
+
+  .light-horizontal-line {
+    @apply text-scndry-highlight h-[2px] w-full;
+  }
+
+  .horizontal-line {
+    @apply text-scndry-txt-clr h-[2px] w-full;
+  }
+}
+*/
