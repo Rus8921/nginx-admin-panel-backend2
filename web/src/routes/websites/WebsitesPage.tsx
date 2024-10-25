@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./websites.css";
-import WebsiteCard from "../../ui/components/cards/WebsiteCard/WebsiteCard";
+import WebsiteCard from "../../ui/components/cards/WebsiteCard";
 import nginxPanelApiService from "../../api/NginxPanelApiService";
 import { WebsiteInterface } from "../../types";
 
@@ -19,7 +18,7 @@ export const WebsitesPage = () => {
   }, [])
 
   return (
-    <main className="Dashboard">
+    <main className="w-full py-12 px-[4.5rem] grid grid-cols-adaptive-cards auto-rows-min gap-6 *:max-w-xl">
       {!isLoading ? (
         !!websites.length &&
         websites.map(website => <WebsiteCard key={website.id} data={website} />)

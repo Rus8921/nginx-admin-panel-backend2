@@ -1,11 +1,14 @@
-.light-horizontal-line {
-  color: var(--secondary-highlight-color);
-  height: 2px;
-  width: 100%;
-}
+/*@tailwind base;
+@tailwind components;
+@tailwind utilities;
+*/
+/* to be moved to components */
+/*@layer components {
+  .light-horizontal-line {
+    @apply text-scndry-highlight h-[2px] w-full;
+  }
 
-.horizontal-line {
-  color: var(--secondary-text-color);
-  height: 2px;
-  width: 100%;
-}
+  .horizontal-line {
+    @apply text-scndry-txt-clr h-[2px] w-full;
+  }
+}*/

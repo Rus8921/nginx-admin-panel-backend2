@@ -1,15 +1,3 @@
 :root {
-  --bg-color: #f9f9f9;
   --main-color: #32ade6;
-  --secondary-color: #1a6d94;
-  --text-color: #000000;
-  --secondary-text-color: #b1b1b1;
-  --white-shade: #ffffff;
-  --black-shade: #000000;
-  --highlight-color: #eef9fe;
-  --secondary-highlight-color: #f3f3f3;
-  --shadow-color: #b1b1b133;
-  --light-shadow-color: #b1b1b11A;
-  --ok-status: #5ce06c;
-  --err-status: #cc332e;
 }
