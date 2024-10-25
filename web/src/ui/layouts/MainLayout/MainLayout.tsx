@@ -1,14 +1,13 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../Header/Header";
-import Navigation from "./Navigation/Navigation";
-import "./MainLayout.css"
+import Navigation from "./Navigation";
 
 export const MainLayout = () => {
   return (
-    <div className="MainLayout">
+    <div className="min-h-screen flex flex-col bg-bg-clr items-center">
       <Header />
-      <div className="main">
+      <div className="w-full flex">
         <Navigation />
         <Outlet />
       </div>
