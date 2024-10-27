@@ -1,8 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider, redirect, replace } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  redirect,
+  replace,
+} from "react-router-dom";
 import { MainLayout } from "./ui/layouts/MainLayout/MainLayout";
-import { LoginPage } from "./routes/login/LoginPage";
+import { LoginPage, loader as loginLoader } from "./routes/login/LoginPage";
 import { PermissionsPage } from "./routes/permissions/PermissionsPage";
 import { UserPage } from "./routes/permissions/users/UserPage";
 import { AddUserPage } from "./routes/permissions/users/AddUserPage";
@@ -102,6 +107,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
+    loader: loginLoader,
     element: <LoginPage />,
   },
   {
@@ -111,6 +117,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
+    {/* <UserProvider> */}
     <RouterProvider router={router} />
+    {/* </UserProvider> */}
   </React.StrictMode>
 );
