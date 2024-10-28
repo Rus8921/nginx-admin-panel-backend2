@@ -2,18 +2,11 @@ version: '3.8'
 
 services:
   app:
-    build:
-      context: .
-      dockerfile: build/Dockerfile
-      args:
-        - BUILD_ENV=production
-        - GO_VER=1.23
-        - VERSION=0.0.1
-        - ALPINE_VER=3.20
+    image: nginx-admin-panel-backend
+    container_name: nginx-admin-panel
     ports:
       - "8080:8080"
     environment:
-      - GO_ENV=development
       - DB_HOST=postgres
       - DB_USER=your_username
       - DB_PASSWORD=your_password
@@ -22,8 +15,7 @@ services:
     depends_on:
       - postgres
     networks:
-      - adminplane
-
+      - aminpanelnginx
 
   postgres:
     image: postgres:latest
@@ -35,7 +27,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - adminpanel
+      - aminpanelnginx
 
 networks:
-  adminpanel:
+  aminpanelnginx:

@@ -2,14 +2,13 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
-	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/cmd/backend"
-	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/cmd/backend/models"
+	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models"
 	"net/http"
 )
 
 func main() {
 
-	backend.InitDb()
+	InitDb()
 	router := gin.Default()
 	user := router.Group("/user")
 	{
@@ -20,7 +19,7 @@ func main() {
 				context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 				return
 			}
-			if err := models.CreateUser(backend.Db, &user); err != nil {
+			if err := models.CreateUser(Db, &user); err != nil {
 				context.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			}
 			context.JSON(http.StatusOK, gin.H{"data": user})
