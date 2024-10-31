@@ -21,11 +21,6 @@ func CreateUser(db *gorm.DB, user *User) error {
 	return result.Error
 }
 
-func DeleteUser(db *gorm.DB, user *User) error {
-	result := db.Delete(user)
-	return result.Error
-}
-
 func hashPassword(password string) (string, error) {
 	hashPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
@@ -34,7 +29,7 @@ func hashPassword(password string) (string, error) {
 	return string(hashPassword), nil
 }
 
-func checkPassword(hashPassword, password string) (bool, error) {
+func CheckPassword(hashPassword, password string) (bool, error) {
 	err := bcrypt.CompareHashAndPassword([]byte(hashPassword), []byte(password))
 	if err != nil {
 		return false, fmt.Errorf("error checking password: %w", err)
@@ -53,6 +48,18 @@ func validateUser(db *gorm.DB, user User) error {
 	return nil
 }
 
+func LoginUser(db *gorm.DB, username string, password string) (bool, error) {
+	var user User
+	if err := db.Where("username = ?", username).First(&user).Error; err != nil {
+		return false, fmt.Errorf("user does not exist: %w", err)
+	}
+	result, err := CheckPassword(user.HashPassword, password)
+	if err != nil {
+		return false, fmt.Errorf("invalid password")
+	}
+	return result, nil
+}
+
 func RegistrateUser(db *gorm.DB, user User) error {
 	if err := validateUser(db, user); err != nil {
 		return err
@@ -65,6 +72,34 @@ func RegistrateUser(db *gorm.DB, user User) error {
 
 	if err := CreateUser(db, &user); err != nil {
 		return fmt.Errorf("error creating user: %w", err)
+	}
+	return nil
+}
+
+func GetUserById(db *gorm.DB, id uint) (User, error) {
+	var user User
+	if err := db.Where("id = ?", id).First(&user).Error; err != nil {
+		return User{}, fmt.Errorf("user does not finede: %w", err)
+	}
+	return user, nil
+}
+
+func GetUserByUsername(db *gorm.DB, username string) (User, error) {
+	var user User
+	if err := db.Where("username = ?", username).First(&user).Error; err != nil {
+		return User{}, fmt.Errorf("user does not finede: %w", err)
+	}
+	return user, nil
+}
+
+func DeleteUser(db *gorm.DB, id uint) error {
+	result := db.Delete(&User{}, id)
+
+	if result.Error != nil {
+		return fmt.Errorf("ошибка удаления пользователя: %w", result.Error)
+	}
+	if result.RowsAffected == 0 {
+		return fmt.Errorf("пользователь с ID %d не найден", id)
 	}
 	return nil
 }
