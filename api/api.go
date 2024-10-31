@@ -6,6 +6,18 @@ import (
 	"net/http"
 )
 
+func registrationHandler(context *gin.Context) {
+	var user models.User
+	if err := context.ShouldBind(&user); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if err := models.RegistrateUser(Db, user); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	context.JSON(http.StatusCreated, gin.H{"message": "User registered successfully"})
+}
 func main() {
 
 	InitDb()
@@ -26,7 +38,7 @@ func main() {
 		})
 		user.PUT("/users")
 		user.DELETE("/users")
-		user.POST("/registration")
+		user.POST("/registration", registrationHandler)
 	}
 	nginxServer := router.Group("/nginx_server")
 	{
@@ -51,4 +63,5 @@ func main() {
 	if err != nil {
 		return
 	}
+
 }

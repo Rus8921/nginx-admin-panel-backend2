@@ -29,5 +29,7 @@ func InitDb() {
 	} else {
 		log.Printf("successfully connected to database")
 	}
-	Db.AutoMigrate(&models.User{})
+	if err := Db.AutoMigrate(&models.User{}); err != nil {
+		log.Fatalf("failed to migrate database: %v", err)
+	}
 }
