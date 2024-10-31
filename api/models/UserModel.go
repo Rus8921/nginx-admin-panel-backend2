@@ -9,7 +9,7 @@ import (
 // User представляет модель пользователя
 type User struct {
 	gorm.Model
-	Id           uint   `gorm:"primaryKey"`
+	Id           uint   `gorm:"primaryKey;autoIncrement"`
 	Email        string `gorm:"unique;not null"` // Уникальный email
 	Username     string `gorm:"unique;not null"` // Уникальное имя пользователя
 	HashPassword string `gorm:"not null"`        // Хэшированный пароль
@@ -29,12 +29,12 @@ func hashPassword(password string) (string, error) {
 	return string(hashPassword), nil
 }
 
-func CheckPassword(hashPassword, password string) (bool, error) {
+func CheckPassword(hashPassword, password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hashPassword), []byte(password))
 	if err != nil {
-		return false, fmt.Errorf("error checking password: %w", err)
+		return false
 	}
-	return true, nil
+	return true
 }
 
 func validateUser(db *gorm.DB, user User) error {
@@ -48,16 +48,16 @@ func validateUser(db *gorm.DB, user User) error {
 	return nil
 }
 
-func LoginUser(db *gorm.DB, username string, password string) (bool, error) {
+func LoginUser(db *gorm.DB, username string, password string) (*User, error) {
 	var user User
 	if err := db.Where("username = ?", username).First(&user).Error; err != nil {
-		return false, fmt.Errorf("user does not exist: %w", err)
+		return nil, fmt.Errorf("user does not exist: %w", err)
 	}
-	result, err := CheckPassword(user.HashPassword, password)
-	if err != nil {
-		return false, fmt.Errorf("invalid password")
+	result := CheckPassword(user.HashPassword, password)
+	if result == false {
+		return nil, fmt.Errorf("invalid password")
 	}
-	return result, nil
+	return &user, nil
 }
 
 func RegistrateUser(db *gorm.DB, user User) error {
