@@ -1,5 +1,6 @@
 export interface IUser {
   email: string;
+  login: string;
   token: string;
   refreshToken: string;
   tokenExpiresMilliseconds: number;

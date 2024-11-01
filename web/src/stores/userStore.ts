@@ -3,7 +3,7 @@ import { createJSONStorage, persist } from "zustand/middleware";
 import { IUser } from "../types/user";
 
 interface IUserStore {
-  user: IUser | null;
+  user: IUser;
 
   getDataFromCookies: () => void;
   isLoggedIn: () => boolean;
@@ -13,6 +13,7 @@ interface IUserStore {
 
 const userValue: IUser = {
   email: "example@example.com",
+  login: "adminlogin",
   token: "token",
   refreshToken: "refreshToken",
   tokenExpiresMilliseconds: 1000,
@@ -24,13 +25,13 @@ export const useUserStore = create<IUserStore>()(
     (set, get) => ({
       user: userValue,
 
-      getDataFromCookies: () => {},
+      getDataFromCookies: () => { },
 
       isLoggedIn: () => {
         if (
-          !get().user &&
-          get().user?.email === "" &&
-          get().user?.token === ""
+          !get().user ||
+          (get().user?.email === "" &&
+            get().user?.token === "")
         ) {
           return false;
         } else {
@@ -38,19 +39,13 @@ export const useUserStore = create<IUserStore>()(
         }
       },
 
-      login: async ({ user }) => {
+      login: async ({ user }: { user: IUser }) => {
         set({ user: user });
       },
 
       logout: () => {
         set({
-          user: {
-            email: "",
-            refreshToken: "",
-            role: -1,
-            token: "",
-            tokenExpiresMilliseconds: -1,
-          },
+          user: userValue,
         });
       },
     }),
