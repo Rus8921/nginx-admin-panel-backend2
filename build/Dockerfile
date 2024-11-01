@@ -22,7 +22,7 @@ RUN cd web && \
     npm run build && \
     cd ..
 
-RUN GOOS=linux GOARCH=arm64 go build -tags musl -o backend ./cmd/backend
+RUN GOOS=linux go build -tags musl -o backend ./cmd/backend
 
 # Build an application image.
 FROM alpine:${ALPINE_VER}
@@ -36,6 +36,5 @@ RUN apk update && \
 
 WORKDIR /app
 COPY --from=builder /repo/backend /app/backend
-RUN chmod +x /app/backend
 
 CMD ["/app/backend"]
