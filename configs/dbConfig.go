@@ -3,7 +3,8 @@ package configs
 import (
 	"fmt"
 	"github.com/joho/godotenv"
-	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models"
+	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/NginxServer"
+	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/User"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"log"
@@ -54,11 +55,14 @@ func InitDb() {
 		log.Printf("successfully connected to database")
 	}
 
-	if err := Db.AutoMigrate(&models.User{}); err != nil {
+	if err := Db.AutoMigrate(&User.User{}); err != nil {
 		log.Fatalf("failed to migrate database: %v", err)
 	} else {
 		log.Printf("successfully migrated database")
 	}
-	Db.Create(&models.User{Username: "admin", HashPassword: "admin"})
-
+	if err := Db.AutoMigrate(&NginxServer.NginxServer{}); err != nil {
+		log.Fatalf("failed to migrate database: %v", err)
+	} else {
+		log.Printf("successfully migrated database")
+	}
 }

@@ -1,4 +1,4 @@
-package models
+package User
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-func InitTestDb() (*gorm.DB, error) {
+func InitTestDbUser() (*gorm.DB, error) {
 	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
 	if err != nil {
 		return nil, err
@@ -61,7 +61,7 @@ func TestHashPassword(t *testing.T) {
 
 // прошел тестирование
 func TestCreateUser(t *testing.T) {
-	db, err := InitTestDb()
+	db, err := InitTestDbUser()
 	assert.NoError(t, err)
 
 	user := User{Email: "newuser@example.com", Username: "newuser"}
@@ -80,7 +80,7 @@ func TestCreateUser(t *testing.T) {
 
 // прошел тестирование
 func TestValidateUser(t *testing.T) {
-	db, err := InitTestDb()
+	db, err := InitTestDbUser()
 	assert.NoError(t, err) // Проверяем отсутствие ошибки при инициализации базы данных
 
 	user1 := &User{Email: "test@example.com", Username: "testuser"}
@@ -102,7 +102,7 @@ func TestValidateUser(t *testing.T) {
 // прошел тестирование
 // TestLoginUser тестирует функцию логина.
 func TestLoginUser(t *testing.T) {
-	db, err := InitTestDb()
+	db, err := InitTestDbUser()
 	assert.NoError(t, err) // Проверяем отсутствие ошибки при инициализации базы данных
 
 	user := &User{Email: "login@example.com", Username: "loginuser"}
@@ -123,7 +123,7 @@ func TestLoginUser(t *testing.T) {
 // прошел тестирование
 // TestFindUser тестирует поиск пользователя.
 func TestFindUser(t *testing.T) {
-	db, err := InitTestDb()
+	db, err := InitTestDbUser()
 	assert.NoError(t, err) // Проверяем отсутствие ошибки при инициализации базы данных
 
 	foundUser1, err := GetUserByUsername(db, "testuser1")
@@ -138,7 +138,7 @@ func TestFindUser(t *testing.T) {
 // прошел тестирование
 // TestDeleteUser тестирует удаление пользователя.
 func TestDeleteUser(t *testing.T) {
-	db, err := InitTestDb()
+	db, err := InitTestDbUser()
 	assert.NoError(t, err) // Проверяем отсутствие ошибки при инициализации базы данных
 
 	user := &User{Email: "delete@example.com", Username: "deleteuser", HashPassword: "hashedpassword"}
@@ -151,7 +151,7 @@ func TestDeleteUser(t *testing.T) {
 }
 
 func TestGetUserById(t *testing.T) {
-	db, err := InitTestDb()
+	db, err := InitTestDbUser()
 	assert.NoError(t, err) // Проверяем отсутствие ошибки при инициализации базы данных
 
 	foundUser1, err := GetUserById(db, 1)
@@ -164,7 +164,7 @@ func TestGetUserById(t *testing.T) {
 }
 
 func TestUpdateUser(t *testing.T) {
-	db, err := InitTestDb()
+	db, err := InitTestDbUser()
 	assert.NoError(t, err) // Проверяем отсутствие ошибки при инициализации базы данных
 
 	user := &User{Email: "delete@example.com", Username: "deleteuser"}
