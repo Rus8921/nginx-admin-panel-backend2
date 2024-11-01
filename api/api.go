@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models"
+	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/configs"
 	"net/http"
 	"strconv"
 )
@@ -13,7 +14,7 @@ func registrationHandler(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := models.RegistrateUser(Db, user); err != nil {
+	if err := models.RegistrateUser(configs.Db, user); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -29,7 +30,7 @@ func loginHandler(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input"})
 		return
 	}
-	user, err := models.LoginUser(Db, credentials.Username, credentials.Password)
+	user, err := models.LoginUser(configs.Db, credentials.Username, credentials.Password)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -43,7 +44,7 @@ func findHandler(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
 
-	user, err := models.GetUserByUsername(Db, strconv.Itoa(username))
+	user, err := models.GetUserByUsername(configs.Db, strconv.Itoa(username))
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -56,7 +57,7 @@ func deleteHandler(context *gin.Context) {
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
-	if err := models.DeleteUser(Db, uint(id)); err != nil {
+	if err := models.DeleteUser(configs.Db, uint(id)); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
@@ -65,7 +66,7 @@ func deleteHandler(context *gin.Context) {
 
 func main() {
 
-	InitDb()
+	configs.InitDb()
 	router := gin.Default()
 	user := router.Group("/user")
 	{

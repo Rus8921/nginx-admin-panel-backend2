@@ -2,14 +2,15 @@ version: '3.8'
 
 services:
   app:
-    build:
-      context: .
-      dockerfile: build/Dockerfile
-      args:
-        - BUILD_ENV=production
-        - GO_VER=1.23
-        - VERSION=0.0.1
-        - ALPINE_VER=3.20
+#    build:
+#      context: .
+#      dockerfile: build/Dockerfile
+#      args:
+#        - BUILD_ENV=production
+#        - GO_VER=1.23
+#        - VERSION=0.0.1
+#        - ALPINE_VER=3.20
+    image: nginx-admin-panel-backend:latest
     ports:
       - "8080:8080"
     environment:

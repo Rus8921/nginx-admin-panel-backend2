@@ -1,9 +1,10 @@
 module gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git
 
-go 1.23.2
+go 1.23
 
 require (
 	github.com/gin-gonic/gin v1.10.0
+	github.com/joho/godotenv v1.5.1
 	github.com/stretchr/testify v1.9.0
 	gorm.io/driver/postgres v1.5.9
 	gorm.io/driver/sqlite v1.5.6
