@@ -34,7 +34,7 @@ export const useUserStore = create<IUserStore>()(
     (set, get) => ({
       user: userValueLogout,
 
-      getDataFromCookies: () => {},
+      getDataFromCookies: () => { },
 
       isLoggedIn: () => {
         if (get().user?.email === "" && get().user?.token === "") {
@@ -44,7 +44,7 @@ export const useUserStore = create<IUserStore>()(
         }
       },
 
-      login: async ({ user }) => {
+      login: async ({ user }: { user: IUser }) => {
         set({ user: user });
       },
 
