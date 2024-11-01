@@ -25,7 +25,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "jest --collectCoverage",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -47,6 +47,8 @@
     ]
   },
   "devDependencies": {
+    "jest": "^29.7.0",
+    "react-test-renderer": "^18.3.1",
     "tailwindcss": "^3.4.14",
     "ts-jest": "^29.2.5"
   }
