@@ -1,17 +1,28 @@
+import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../../../../stores/userStore";
 import UserAvatar from "./UserAvatar";
 import UserInfo from "./UserInfo";
 
-
 function UserBlock() {
-  const { user, logout } = useUserStore.getState();
+  const isLoggedIn = useUserStore((state) => state.isLoggedIn);
+  const user = useUserStore((state) => state.user);
+  const navigate = useNavigate();
 
-  return (
-    <div className="px-3 flex justify-between gap-4 items-center">
-      <UserAvatar user={user} />
-      <UserInfo user={user} logout={logout} />
-    </div>
-  );
+  if (isLoggedIn()) {
+    return (
+      <div className="px-3 flex justify-between gap-4 items-center">
+        <UserAvatar user={user} />
+        <UserInfo
+          user={user}
+          logout={() => {
+            navigate("/logout");
+          }}
+        />
+      </div>
+    );
+  } else {
+    return <></>;
+  }
 }
 
 export default UserBlock;

@@ -1,6 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  redirect,
+  RouterProvider,
+} from "react-router-dom";
 import { MainLayout } from "./ui/layouts/MainLayout/MainLayout";
 import { LoginPage, loader as loginLoader } from "./routes/login/LoginPage";
 import { PermissionsPage } from "./routes/permissions/PermissionsPage";
@@ -17,8 +21,8 @@ import { AddServerPage } from "./routes/servers/AddServerPage";
 import { EditServerPage } from "./routes/servers/EditServerPage";
 import { NotFoundErrorPage } from "./routes/errors/404";
 import "./index.css";
-import { useUserStore } from "./stores/userStore";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
+import { LogoutPage } from "./routes/login/LogoutPage";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +30,12 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     errorElement: <NotFoundErrorPage />,
     children: [
+      {
+        index: true,
+        loader: () => {
+          return redirect("websites");
+        },
+      },
       {
         path: "websites",
         children: [
@@ -146,13 +156,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/logout",
+    element: <LogoutPage />,
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    {/* <UserProvider> */}
     <RouterProvider router={router} />
-    {/* </UserProvider> */}
   </React.StrictMode>
 );
