@@ -9,7 +9,6 @@ import (
 // User представляет модель пользователя
 type User struct {
 	gorm.Model
-	Id           uint   `gorm:"primaryKey;autoIncrement"`
 	Email        string `gorm:"unique;not null"` // Уникальный email
 	Username     string `gorm:"unique;not null"` // Уникальное имя пользователя
 	HashPassword string `gorm:"not null"`        // Хэшированный пароль
@@ -39,11 +38,11 @@ func CheckPassword(hashPassword, password string) bool {
 
 func validateUser(db *gorm.DB, user User) error {
 	var existingUser User
-	if err := db.Where("username = ?", user.Username).First(&existingUser).Error; err != nil {
-		return fmt.Errorf("user already exist: %w", err)
+	if err := db.Where("username = ?", user.Username).First(&existingUser).Error; err == nil {
+		return fmt.Errorf("username already exists")
 	}
-	if err := db.Where("email = ?", user.Email).First(&existingUser).Error; err != nil {
-		return fmt.Errorf("user email does not exist: %w", err)
+	if err := db.Where("email = ?", user.Email).First(&existingUser).Error; err == nil {
+		return fmt.Errorf("email already exists")
 	}
 	return nil
 }

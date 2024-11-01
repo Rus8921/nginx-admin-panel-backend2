@@ -5,7 +5,6 @@ import (
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/configs"
 	"net/http"
-	"strconv"
 )
 
 func registrationHandler(context *gin.Context) {
@@ -32,36 +31,61 @@ func loginHandler(context *gin.Context) {
 	}
 	user, err := models.LoginUser(configs.Db, credentials.Username, credentials.Password)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid credentials", "details": err.Error()})
 		return
 	}
 	context.JSON(http.StatusCreated, gin.H{"message": "User logged in", "user": user})
 }
 
+// почему-то так не работает, выглядит интереснее, но не работает
+//func findHandler(context *gin.Context) {
+//	username, err := strconv.Atoi(context.Param("username"))
+//
+//	if err != nil {
+//		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+//	}
+//
+//	user, err := models.GetUserByUsername(configs.Db, strconv.Itoa(username))
+//	if err != nil {
+//		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+//		return
+//	}
+//	context.JSON(http.StatusCreated, gin.H{"message": "User found", "user": user})
+//}
+
 func findHandler(context *gin.Context) {
-	username, err := strconv.Atoi(context.Param("username"))
-	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	var request struct {
+		Username string `json:"username"`
 	}
 
-	user, err := models.GetUserByUsername(configs.Db, strconv.Itoa(username))
-	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	if err := context.ShouldBindJSON(&request); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input"}) // Проверка на валидность входных данных
 		return
 	}
-	context.JSON(http.StatusCreated, gin.H{"message": "User found", "user": user})
+
+	user, err := models.GetUserByUsername(configs.Db, request.Username)
+	if err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
+		return
+	}
+
+	context.JSON(http.StatusOK, gin.H{"message": "User found", "user": user})
 }
 
 func deleteHandler(context *gin.Context) {
-	id, err := strconv.Atoi(context.Param("id"))
-	if err != nil {
+	var request struct {
+		Id uint `json:"id"`
+	}
+
+	if err := context.ShouldBindJSON(&request); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
-	if err := models.DeleteUser(configs.Db, uint(id)); err != nil {
+
+	if err := models.DeleteUser(configs.Db, request.Id); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	context.JSON(http.StatusCreated, gin.H{"message": "User deleted", "userId": id})
+	context.JSON(http.StatusCreated, gin.H{"message": "User deleted", "userId": request.Id})
 }
 
 func main() {
