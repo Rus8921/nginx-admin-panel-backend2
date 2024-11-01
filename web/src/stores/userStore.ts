@@ -13,6 +13,7 @@ interface IUserStore {
 
 const userValue: IUser = {
   email: "example@example.com",
+  login: "adminlogin",
   token: "token",
   refreshToken: "refreshToken",
   tokenExpiresMilliseconds: 1000,
@@ -24,7 +25,7 @@ export const useUserStore = create<IUserStore>()(
     (set, get) => ({
       user: userValue,
 
-      getDataFromCookies: () => {},
+      getDataFromCookies: () => { },
 
       isLoggedIn: () => {
         if (
@@ -38,7 +39,7 @@ export const useUserStore = create<IUserStore>()(
         }
       },
 
-      login: async ({ user }) => {
+      login: async ({ user }: { user: IUser }) => {
         set({ user: user });
       },
 
@@ -46,6 +47,7 @@ export const useUserStore = create<IUserStore>()(
         set({
           user: {
             email: "",
+            login: "",
             refreshToken: "",
             role: -1,
             token: "",
