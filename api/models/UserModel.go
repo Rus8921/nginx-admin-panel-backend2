@@ -102,3 +102,34 @@ func DeleteUser(db *gorm.DB, id uint) error {
 	}
 	return nil
 }
+
+func UpdateUser(db *gorm.DB, username, currentPassword string, updatedUser User) (User, error) {
+	var user User
+	if err := db.Where("username = ?", username).First(&user).Error; err != nil {
+		return User{}, fmt.Errorf("user does not exist: %w", err)
+	}
+
+	if !CheckPassword(user.HashPassword, currentPassword) {
+		return User{}, fmt.Errorf("invalid current password")
+	}
+
+	if updatedUser.Email != "" {
+		user.Email = updatedUser.Email
+	}
+	if updatedUser.Username != "" {
+		user.Username = updatedUser.Username
+	}
+	if updatedUser.HashPassword != "" {
+		hashedPassword, err := hashPassword(updatedUser.HashPassword)
+		if err != nil {
+			return User{}, fmt.Errorf("user does not exist: %w", err)
+		}
+		user.HashPassword = hashedPassword
+	}
+
+	if err := db.Save(&user).Error; err != nil {
+		return User{}, fmt.Errorf("error updating user: %w", err)
+	}
+
+	return user, nil
+}

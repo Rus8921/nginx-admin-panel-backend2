@@ -7,31 +7,31 @@ import (
 	"net/http"
 )
 
-func registrationHandler(context *gin.Context) {
+func registrationUserHandler(context *gin.Context) {
 	var user models.User
 	if err := context.ShouldBind(&user); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()})
 		return
 	}
 	if err := models.RegistrateUser(configs.Db, user); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "", "details": err.Error()})
 		return
 	}
-	context.JSON(http.StatusCreated, gin.H{"message": "User registered successfully"})
+	context.JSON(http.StatusCreated, gin.H{"message": "User registered successfully", "user": user})
 }
 
-func loginHandler(context *gin.Context) {
+func loginUserHandler(context *gin.Context) {
 	var credentials struct {
 		Username string `json:"username"`
 		Password string `json:"password"`
 	}
 	if err := context.ShouldBind(&credentials); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input"})
+		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()})
 		return
 	}
 	user, err := models.LoginUser(configs.Db, credentials.Username, credentials.Password)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid credentials", "details": err.Error()})
+		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
 		return
 	}
 	context.JSON(http.StatusCreated, gin.H{"message": "User logged in", "user": user})
@@ -53,39 +53,61 @@ func loginHandler(context *gin.Context) {
 //	context.JSON(http.StatusCreated, gin.H{"message": "User found", "user": user})
 //}
 
-func findHandler(context *gin.Context) {
+func findUserHandler(context *gin.Context) {
 	var request struct {
 		Username string `json:"username"`
 	}
 
 	if err := context.ShouldBindJSON(&request); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input"}) // Проверка на валидность входных данных
+		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()}) // Проверка на валидность входных данных
 		return
 	}
 
 	user, err := models.GetUserByUsername(configs.Db, request.Username)
 	if err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "user not found"})
+		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
 		return
 	}
 
 	context.JSON(http.StatusOK, gin.H{"message": "User found", "user": user})
 }
 
-func deleteHandler(context *gin.Context) {
+func deleteUserHandler(context *gin.Context) {
 	var request struct {
 		Id uint `json:"id"`
 	}
 
 	if err := context.ShouldBindJSON(&request); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()})
 	}
 
 	if err := models.DeleteUser(configs.Db, request.Id); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
 		return
 	}
 	context.JSON(http.StatusCreated, gin.H{"message": "User deleted", "userId": request.Id})
+}
+
+func updateUserHandler(context *gin.Context) {
+	var request struct {
+		Username string `json:"username"`
+		Password string `json:"password"`
+
+		NewUsername string `json:"new-username"`
+		NewEmail    string `json:"new-email"`
+		NewPassword string `json:"new-password"`
+	}
+
+	if err := context.ShouldBindJSON(&request); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()})
+	}
+
+	user, err := models.UpdateUser(configs.Db, request.Username, request.Password, models.User{Username: request.NewUsername, Email: request.NewEmail, HashPassword: request.NewPassword})
+	if err != nil {
+		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"message": "User updated successfully", "user": user})
 }
 
 func main() {
@@ -94,11 +116,11 @@ func main() {
 	router := gin.Default()
 	user := router.Group("/user")
 	{
-		user.GET("/users", findHandler)
-		user.POST("/login", loginHandler)
-		user.PUT("/users")
-		user.DELETE("/users", deleteHandler)
-		user.POST("/registration", registrationHandler)
+		user.GET("/users", findUserHandler)
+		user.POST("/login", loginUserHandler)
+		user.PUT("/users", updateUserHandler)
+		user.DELETE("/users", deleteUserHandler)
+		user.POST("/registration", registrationUserHandler)
 	}
 	nginxServer := router.Group("/nginx_server")
 	{

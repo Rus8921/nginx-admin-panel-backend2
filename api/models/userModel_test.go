@@ -162,3 +162,23 @@ func TestGetUserById(t *testing.T) {
 	assert.Error(t, err)                // Проверка на несуществующего пользователя
 	assert.Equal(t, User{}, foundUser2) // Убедимся что пользователь не найден
 }
+
+func TestUpdateUser(t *testing.T) {
+	db, err := InitTestDb()
+	assert.NoError(t, err) // Проверяем отсутствие ошибки при инициализации базы данных
+
+	user := &User{Email: "delete@example.com", Username: "deleteuser"}
+	hashedPassword, err := hashPassword("hashedpassword")
+	assert.NoError(t, err) // Проверяем отсутствие ошибки при хешировании
+	user.HashPassword = hashedPassword
+	assert.NoError(t, CreateUser(db, user)) // Прове��яем отсутствие ошибки при создании пользователя
+
+	updatedUser, err := UpdateUser(db, user.Username, "hashedpassword", User{Username: "newusername", Email: "newemail"})
+	assert.NoError(t, err)                               // Проверяем отсутствие ошибки при обновлении пользователя
+	assert.Equal(t, updatedUser.Username, "newusername") // Убедимся что пользователь обновлен
+	assert.Equal(t, updatedUser.Email, "newemail")       // Убедимся что пользователь обновлен
+	hashedNewPassword, err := hashPassword("newpassword")
+	assert.NoError(t, err)                                          // Проверяем отсутствие ошибки при хешировании нового пароля
+	assert.True(t, CheckPassword(hashedNewPassword, "newpassword")) // Убедимся что новый пароль корректно хеширован
+
+}
