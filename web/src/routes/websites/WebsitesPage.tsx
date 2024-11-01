@@ -3,12 +3,12 @@ import WebsiteCard from "../../ui/components/cards/WebsiteCard";
 import nginxPanelApiService from "../../api/NginxPanelApiService";
 import { WebsiteInterface } from "../../types";
 
-export const WebsitesPage = () => {
+export const WebsitesPage = ({ datasetId }: { datasetId?: number }) => {
   const [websites, setWebsites] = useState<WebsiteInterface[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    let data = nginxPanelApiService.getWebsites()
+    let data = nginxPanelApiService.getWebsites(datasetId ?? 0)
     data.then((resp) => {
       if (resp.status === 200) {
         setWebsites(resp.data.websites)
