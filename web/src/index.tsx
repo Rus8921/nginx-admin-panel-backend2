@@ -2,9 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
-  RouterProvider,
   redirect,
-  replace,
+  RouterProvider,
 } from "react-router-dom";
 import { MainLayout } from "./ui/layouts/MainLayout/MainLayout";
 import { LoginPage, loader as loginLoader } from "./routes/login/LoginPage";
@@ -22,7 +21,8 @@ import { AddServerPage } from "./routes/servers/AddServerPage";
 import { EditServerPage } from "./routes/servers/EditServerPage";
 import { NotFoundErrorPage } from "./routes/errors/404";
 import "./index.css";
-import { useUserStore } from "./stores/userStore";
+import { ProtectedRoute } from "./routes/ProtectedRoute";
+import { LogoutPage } from "./routes/login/LogoutPage";
 
 const router = createBrowserRouter([
   {
@@ -33,12 +33,7 @@ const router = createBrowserRouter([
       {
         index: true,
         loader: () => {
-          const isLoggedIn = useUserStore.getState().isLoggedIn();
-          if (!isLoggedIn) {
-            return redirect("/login");
-          } else {
-            return replace("/websites");
-          }
+          return redirect("websites");
         },
       },
       {
@@ -46,19 +41,35 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <WebsitesPage />,
+            element: (
+              <ProtectedRoute>
+                <WebsitesPage />
+              </ProtectedRoute>
+            ),
           },
           {
             path: "add",
-            element: <AddWebsitePage />,
+            element: (
+              <ProtectedRoute>
+                <AddWebsitePage />
+              </ProtectedRoute>
+            ),
           },
           {
             path: ":websiteId",
-            element: <WebsiteIdPage />,
+            element: (
+              <ProtectedRoute>
+                <WebsiteIdPage />
+              </ProtectedRoute>
+            ),
           },
           {
             path: ":websiteId/edit",
-            element: <EditWebsitePage />,
+            element: (
+              <ProtectedRoute>
+                <EditWebsitePage />
+              </ProtectedRoute>
+            ),
           },
         ],
       },
@@ -67,19 +78,35 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <ServersPage />,
+            element: (
+              <ProtectedRoute>
+                <ServersPage />
+              </ProtectedRoute>
+            ),
           },
           {
             path: "add",
-            element: <AddServerPage />,
+            element: (
+              <ProtectedRoute>
+                <AddServerPage />
+              </ProtectedRoute>
+            ),
           },
           {
             path: ":serverId",
-            element: <ServerIdPage />,
+            element: (
+              <ProtectedRoute>
+                <ServerIdPage />
+              </ProtectedRoute>
+            ),
           },
           {
             path: ":serverId/edit",
-            element: <EditServerPage />,
+            element: (
+              <ProtectedRoute>
+                <EditServerPage />
+              </ProtectedRoute>
+            ),
           },
         ],
       },
@@ -88,19 +115,35 @@ const router = createBrowserRouter([
         children: [
           {
             index: true,
-            element: <PermissionsPage />,
+            element: (
+              <ProtectedRoute>
+                <PermissionsPage />
+              </ProtectedRoute>
+            ),
           },
           {
             path: "user/add",
-            element: <AddUserPage />,
+            element: (
+              <ProtectedRoute>
+                <AddUserPage />
+              </ProtectedRoute>
+            ),
           },
           {
             path: "user/:userId",
-            element: <UserPage />,
+            element: (
+              <ProtectedRoute>
+                <UserPage />
+              </ProtectedRoute>
+            ),
           },
           {
             path: "user/:userId/edit",
-            element: <EditUserPage />,
+            element: (
+              <ProtectedRoute>
+                <EditUserPage />
+              </ProtectedRoute>
+            ),
           },
         ],
       },
@@ -113,13 +156,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/logout",
+    element: <LogoutPage />,
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    {/* <UserProvider> */}
     <RouterProvider router={router} />
-    {/* </UserProvider> */}
   </React.StrictMode>
 );
