@@ -30,7 +30,7 @@ func InitDb() {
 	//	os.Getenv("DB_PORT"),
 	//)
 
-	dbHost := "postgres"
+	dbHost := "localhost"
 	dbUser := "your_username"
 	dbPassword := "your_password"
 	dbName := "your_database_name"
@@ -56,5 +56,8 @@ func InitDb() {
 
 	if err := Db.AutoMigrate(&models.User{}); err != nil {
 		log.Fatalf("failed to migrate database: %v", err)
+	} else {
+		log.Printf("successfully migrated database")
 	}
+
 }
