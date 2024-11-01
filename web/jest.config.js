@@ -10,7 +10,8 @@ module.exports = {
     './src/**/*.ts?(x)',
     '!./src/containers/dashboadr.tsx',
     '!./src/index.tsx',
-    '!./src/containers/login/index.ts'
+    '!./src/containers/login/index.ts',
+    '!./**/*Placeholder.ts?(x)'
   ],
   coverageDirectory: "<rootDir>/coverage",
   coverageReporters: [
