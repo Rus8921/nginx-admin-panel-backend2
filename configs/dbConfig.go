@@ -2,10 +2,7 @@ package configs
 
 import (
 	"fmt"
-	"github.com/joho/godotenv"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 	"log"
 )
 
@@ -59,5 +56,6 @@ func InitDb() {
 	} else {
 		log.Printf("successfully migrated database")
 	}
+	Db.Create(&models.User{Username: "admin", HashPassword: "admin"})
 
 }
