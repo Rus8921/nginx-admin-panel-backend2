@@ -2,7 +2,10 @@ package configs
 
 import (
 	"fmt"
+	"github.com/joho/godotenv"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 	"log"
 )
 
