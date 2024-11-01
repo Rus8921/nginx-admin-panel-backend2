@@ -36,5 +36,6 @@ RUN apk update && \
 
 WORKDIR /app
 COPY --from=builder /repo/backend /app/backend
+RUN chmod +x /app/backend
 
 CMD ["/app/backend"]
