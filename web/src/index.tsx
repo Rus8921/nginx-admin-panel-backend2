@@ -22,6 +22,7 @@ import { AddServerPage } from "./routes/servers/AddServerPage";
 import { EditServerPage } from "./routes/servers/EditServerPage";
 import { NotFoundErrorPage } from "./routes/errors/404";
 import "./index.css";
+import { useUserStore } from "./stores/userStore";
 
 const router = createBrowserRouter([
   {
@@ -32,8 +33,8 @@ const router = createBrowserRouter([
       {
         index: true,
         loader: () => {
-          const user = true;
-          if (!user) {
+          const isLoggedIn = useUserStore.getState().isLoggedIn();
+          if (!isLoggedIn) {
             return redirect("/login");
           } else {
             return replace("/websites");
