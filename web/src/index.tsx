@@ -22,7 +22,11 @@ import { EditServerPage } from "./routes/servers/EditServerPage";
 import { NotFoundErrorPage } from "./routes/errors/404";
 import "./index.css";
 import { ProtectedRoute } from "./routes/ProtectedRoute";
-import { LogoutPage } from "./routes/login/LogoutPage";
+import { LogoutPage } from "./routes/logout/LogoutPage";
+import {
+  RegistrationPage,
+  loader as registrationPageLoader,
+} from "./routes/registration/RegistrationPage";
 
 const router = createBrowserRouter([
   {
@@ -157,6 +161,11 @@ const router = createBrowserRouter([
   {
     path: "/logout",
     element: <LogoutPage />,
+  },
+  {
+    path: "/registration",
+    loader: registrationPageLoader,
+    element: <RegistrationPage />,
   },
 ]);
 

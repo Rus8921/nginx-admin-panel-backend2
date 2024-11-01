@@ -1,9 +1,15 @@
 import React from "react";
-import { Path, SubmitHandler, useForm, UseFormRegister } from "react-hook-form";
-import { LoginInputProps } from "../../../types/loginInputProps";
+import {
+  Path,
+  SubmitHandler,
+  useForm,
+  UseFormRegister,
+  Validate,
+} from "react-hook-form";
+import { RegistrationInputProps } from "../../../types/loginInputProps";
 import { Icon } from "react-feather";
 
-export const LoginPageField = ({
+export const RegistrationPageField = ({
   placeholder,
   type,
   register,
@@ -12,15 +18,17 @@ export const LoginPageField = ({
   PasswordIconComponent,
   showPassword,
   setShowPassword,
+  onChange,
 }: {
   placeholder: string;
-  type: Path<LoginInputProps>;
-  register: UseFormRegister<LoginInputProps>;
+  type: Path<RegistrationInputProps>;
+  register: UseFormRegister<RegistrationInputProps>;
   required: boolean;
   IconComponent: Icon;
   PasswordIconComponent?: Icon;
   showPassword?: boolean;
   setShowPassword?: () => void;
+  onChange: any;
 }) => {
   return (
     <div className="flex flex-row items-center w-[440px] relative">
@@ -28,10 +36,20 @@ export const LoginPageField = ({
       <input
         className="pl-16 w-full border border-solid rounded-md border-scndry-txt-clr p-2 focus:border-main-clr focus-visible:border-main-clr outline-none"
         placeholder={placeholder}
-        {...register(type, { required: required })}
+        {...register(type, {
+          required: required,
+        })}
         type={
-          type === "password" ? (showPassword ? "text" : "password") : "text"
+          type === "password" || type === "repeatPassword"
+            ? showPassword
+              ? "text"
+              : "password"
+            : "text"
         }
+        onChange={(e: React.FormEvent<HTMLInputElement>) => {
+          const newValue = e.currentTarget.value;
+          onChange(newValue);
+        }}
       ></input>
       {PasswordIconComponent ? (
         <PasswordIconComponent

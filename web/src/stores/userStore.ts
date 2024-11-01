@@ -57,7 +57,9 @@ export const useUserStore = create<IUserStore>()(
     {
       name: "user-store",
       storage: createJSONStorage(() => sessionStorage),
-      partialize: (state) => ({}),
+      partialize: (state) => ({
+        user: state.user,
+      }),
     }
   )
 );
