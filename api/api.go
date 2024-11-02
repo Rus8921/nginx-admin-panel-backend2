@@ -12,10 +12,10 @@ func main() {
 	router := gin.Default()
 	user := router.Group("/user")
 	{
-		user.GET("/users", Handlers.FindUserHandler)
+		user.GET("/user_get", Handlers.FindUserHandler)
 		user.POST("/login", Handlers.LoginUserHandler)
-		user.PUT("/users", Handlers.UpdateUserHandler)
-		user.DELETE("/users", Handlers.DeleteUserHandler)
+		user.PUT("/user_change", Handlers.UpdateUserHandler)
+		user.DELETE("/user_del", Handlers.DeleteUserHandler)
 		user.POST("/registration", Handlers.RegistrationUserHandler)
 	}
 	nginxServer := router.Group("/nginx_server")
