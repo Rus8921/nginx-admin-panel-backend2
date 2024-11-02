@@ -79,3 +79,25 @@ func UpdateNginxServerHandler(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"message": "NginxServer updated", "NginxServer": server})
 
 }
+
+func ActiveNginxServerHandler(context *gin.Context) {
+	var credentials struct {
+		Id uint `json:"id"`
+	}
+	var server NginxServer.NginxServer
+	if err := context.ShouldBindJSON(&credentials); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()})
+		return
+	}
+	err := NginxServer.ActivateOrUnactivateServer(configs.Db, credentials.Id)
+	if err != nil {
+		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
+		return
+	}
+	server, err = NginxServer.GetNginxServer(configs.Db, credentials.Id)
+	if err != nil {
+		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "error geting server data", "details": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"message": "status of server changed", "NginxServer": server})
+}

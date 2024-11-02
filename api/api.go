@@ -20,12 +20,13 @@ func main() {
 	}
 	nginxServer := router.Group("/nginx_server")
 	{
-		nginxServer.GET("/nginx_server", Handlers.GetNginxServerHandler)
-		nginxServer.POST("/nginx_server", Handlers.AddNginxServerHandler)
-		nginxServer.PUT("/nginx_server", Handlers.UpdateNginxServerHandler)
+		nginxServer.GET("/nginx_server_get", Handlers.GetNginxServerHandler)
+		nginxServer.POST("/nginx_server_add", Handlers.AddNginxServerHandler)
+		nginxServer.POST("/nginx_server_activate", Handlers.ActiveNginxServerHandler)
+		nginxServer.PUT("/nginx_server_change", Handlers.UpdateNginxServerHandler)
 		nginxServer.GET("/nginx_server_list", Handlers.GetNginxServersAllHandler)
 		nginxServer.GET("/nginx_server_users")
-		nginxServer.DELETE("/nginx_server", Handlers.DeleteNginxServerHandler)
+		nginxServer.DELETE("/nginx_server_del", Handlers.DeleteNginxServerHandler)
 	}
 
 	site := router.Group("/site")

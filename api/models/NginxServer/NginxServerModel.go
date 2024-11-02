@@ -9,11 +9,13 @@ import (
 type NginxServer struct {
 	gorm.Model
 	//Ip     ipv4.Conn `gorm:"unique;not null"` // потом надо переписать на него, если это возможно
-	Ip     string `gorm:"unique;not null"`
-	Domain string `gorm:"unique;not null"`
+	Ip       string `gorm:"unique;not null"`
+	Domain   string `gorm:"unique;not null"`
+	isActive bool   `gorm:"not null"`
 }
 
 func CreateNginxSeerver(db *gorm.DB, server *NginxServer) error {
+	server.isActive = false
 	result := db.Create(server)
 	return result.Error
 }
@@ -61,4 +63,18 @@ func UpdateNginxServer(db *gorm.DB, id uint, updatedServer NginxServer) (NginxSe
 		return NginxServer{}, fmt.Errorf("error saving server: %w", err)
 	}
 	return server, nil
+}
+
+func ActivateOrUnactivateServer(db *gorm.DB, id uint) error {
+	var server NginxServer
+	server, err := GetNginxServer(db, id)
+	if err != nil {
+		return fmt.Errorf("error finding server: %w", err)
+	}
+	if server.isActive == true {
+		server.isActive = false
+	} else {
+		server.isActive = true
+	}
+	return nil
 }
