@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useState } from "react";
-import { redirect, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { useUserStore } from "../../stores/userStore";
 import { LoginPageField } from "../../ui/components/fields/LoginPageField";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -22,7 +22,19 @@ export const LoginPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginInputProps>();
-  const onSubmit: SubmitHandler<LoginInputProps> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<LoginInputProps> = (data) => {
+    useUserStore.getState().login({
+      user: {
+        email: "example@example.com",
+        login: "login",
+        token: "token",
+        refreshToken: "refreshToken",
+        tokenExpiresMilliseconds: 1000,
+        role: 1,
+      },
+    });
+    navigate("/");
+  };
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -53,25 +65,34 @@ export const LoginPage = () => {
               setShowPassword((prev) => !prev);
             }}
           />
+          {(errors.login?.type === "required" ||
+            errors.password?.type === "required") && (
+            <div className={`flex flex-col`}>
+              {errors.login?.type === "required" && (
+                <p role="alert" className="text-scndry-clr text-xs ml-2">
+                  Введите логин
+                </p>
+              )}
+              {errors.password?.type === "required" && (
+                <p role="alert" className="text-scndry-clr text-xs ml-2">
+                  Введите пароль
+                </p>
+              )}
+            </div>
+          )}
           <CommonButton
-            buttonText={"ВХОД"}
+            buttonText={"ВОЙТИ"}
             isSubmit={true}
-            onClick={() => {
-              useUserStore.getState().login({
-                user: {
-                  email: "example@example.com",
-                  login: "login",
-                  token: "token",
-                  refreshToken: "refreshToken",
-                  tokenExpiresMilliseconds: 1000,
-                  role: 1,
-                },
-              });
-              navigate("/");
-            }}
+            onClick={() => {}}
             type="blueBgWhiteText"
           />
         </form>
+        <Link
+          className="mt-2 text-xs underline-offset-4 text-scndry-clr hover:underline"
+          to={"/registration"}
+        >
+          Создать аккаунт
+        </Link>
       </div>
     </div>
   );
