@@ -33,7 +33,7 @@ func GetNginxServerHandler(context *gin.Context) {
 		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
 		return
 	}
-	context.JSON(http.StatusCreated, gin.H{"message": "NginxServer found", "NginxServer": nginxServer})
+	context.JSON(http.StatusOK, gin.H{"message": "NginxServer found", "NginxServer": nginxServer})
 }
 
 func GetNginxServersAllHandler(context *gin.Context) {
@@ -42,7 +42,7 @@ func GetNginxServersAllHandler(context *gin.Context) {
 		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
 		return
 	}
-	context.JSON(http.StatusCreated, gin.H{"message": "NginxServers found", "NginxServers": servers})
+	context.JSON(http.StatusOK, gin.H{"message": "NginxServers found", "NginxServers": servers})
 }
 
 func DeleteNginxServerHandler(context *gin.Context) {
@@ -58,7 +58,7 @@ func DeleteNginxServerHandler(context *gin.Context) {
 		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
 		return
 	}
-	context.JSON(http.StatusCreated, gin.H{"message": "NginxServer deleted", "NginxServer": credentials.Id})
+	context.JSON(http.StatusOK, gin.H{"message": "NginxServer deleted", "NginxServer": credentials.Id})
 }
 
 func UpdateNginxServerHandler(context *gin.Context) {
@@ -76,6 +76,6 @@ func UpdateNginxServerHandler(context *gin.Context) {
 		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
 		return
 	}
-	context.JSON(http.StatusCreated, gin.H{"message": "NginxServer updated", "NginxServer": server})
+	context.JSON(http.StatusOK, gin.H{"message": "NginxServer updated", "NginxServer": server})
 
 }

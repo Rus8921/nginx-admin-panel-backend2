@@ -34,7 +34,7 @@ func LoginUserHandler(context *gin.Context) {
 		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
 		return
 	}
-	context.JSON(http.StatusCreated, gin.H{"message": "User logged in", "user": user})
+	context.JSON(http.StatusOK, gin.H{"message": "User logged in", "user": user})
 }
 
 // почему-то так не работает, выглядит интереснее, но не работает
@@ -85,7 +85,7 @@ func DeleteUserHandler(context *gin.Context) {
 		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
 		return
 	}
-	context.JSON(http.StatusCreated, gin.H{"message": "User deleted", "userId": credentials.Id})
+	context.JSON(http.StatusOK, gin.H{"message": "User deleted", "userId": credentials.Id})
 }
 
 func UpdateUserHandler(context *gin.Context) {
