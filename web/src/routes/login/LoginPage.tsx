@@ -81,11 +81,12 @@ export const LoginPage = () => {
             </div>
           )}
           <CommonButton
-            buttonText={"ВОЙТИ"}
             isSubmit={true}
             onClick={() => {}}
             type="blueBgWhiteText"
-          />
+          >
+            <span className="font-roboto">ВОЙТИ</span>
+          </CommonButton>
         </form>
         <Link
           className="mt-2 text-xs underline-offset-4 text-scndry-clr hover:underline"

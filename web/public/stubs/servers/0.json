@@ -1,0 +1,36 @@
+{
+  "servers": [
+    {
+      "id": 1,
+      "serverName": "server 1",
+      "domainName": "domain 1",
+      "ip": "192.158.1.31",
+      "numberOfSites": 1,
+      "active": "active"
+    },
+    {
+      "id": 2,
+      "serverName": "server 2",
+      "domainName": "domain 2",
+      "ip": "192.158.1.32",
+      "numberOfSites": 2,
+      "active": "active"
+    },
+    {
+      "id": 3,
+      "serverName": "server 3",
+      "domainName": "domain 3",
+      "ip": "192.158.1.33",
+      "numberOfSites": 3,
+      "active": "inactive"
+    },
+    {
+      "id": 4,
+      "serverName": "server 4",
+      "domainName": "domain 4",
+      "ip": "192.158.1.34",
+      "numberOfSites": 4,
+      "active": "inactive"
+    }
+  ]
+}

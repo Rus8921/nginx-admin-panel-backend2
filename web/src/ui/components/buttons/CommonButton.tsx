@@ -2,15 +2,15 @@ import { Path } from "react-hook-form";
 import { CommonButtonTypes } from "../../../types/commonButtonTypes";
 
 export const CommonButton = ({
-  buttonText,
   isSubmit,
   type,
   onClick,
+  children,
 }: {
-  buttonText: string;
   isSubmit: boolean;
   type: Path<CommonButtonTypes>;
   onClick: () => void;
+  children: any;
 }) => {
   let additionalClasses = "";
   if (type === "blueBgWhiteText") {
@@ -26,7 +26,7 @@ export const CommonButton = ({
       type={isSubmit ? "submit" : "button"}
       onClick={onClick}
     >
-      {buttonText}
+      {children}
     </button>
   );
 };
