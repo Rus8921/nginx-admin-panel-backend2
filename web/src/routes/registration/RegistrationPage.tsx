@@ -142,11 +142,12 @@ export const RegistrationPage = () => {
             </div>
           )}
           <CommonButton
-            buttonText={"ЗАРЕГИСТРИРОВАТЬСЯ"}
             isSubmit={true}
             onClick={validateTwoPasswords}
             type="blueBgWhiteText"
-          />
+          >
+            <span className="font-roboto">ЗАРЕГИСТРИРОВАТЬСЯ</span>
+          </CommonButton>
         </form>
         <Link
           className="mt-2 text-xs underline-offset-4 text-scndry-clr hover:underline"
