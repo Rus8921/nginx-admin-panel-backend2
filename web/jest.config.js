@@ -12,7 +12,8 @@ module.exports = {
     '!./src/containers/dashboadr.tsx',
     '!./src/index.tsx',
     '!./src/containers/login/index.ts',
-    '!./**/*Placeholder.ts?(x)'
+    '!./**/*Placeholder.ts?(x)',
+    '!./**/cookiesStore.ts'
   ],
   coverageDirectory: "<rootDir>/coverage",
   coverageReporters: [
