@@ -8,8 +8,8 @@ function UserBlock() {
   const user = useUserStore((state) => state.user);
   const navigate = useNavigate();
 
-  if (isLoggedIn()) {
-    return (
+  return isLoggedIn() ?
+    (
       <div className="px-3 flex justify-between gap-4 items-center">
         <UserAvatar login={user.login} />
         <UserInfo
@@ -19,10 +19,7 @@ function UserBlock() {
           }}
         />
       </div>
-    );
-  } else {
-    return <></>;
-  }
+    ) : (<></>);
 }
 
 export default UserBlock;
