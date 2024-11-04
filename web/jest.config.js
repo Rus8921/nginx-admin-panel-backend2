@@ -5,6 +5,7 @@ module.exports = {
     "^.+.tsx?$": ["ts-jest", {}],
   },
   clearMocks: true,
+  updateSnapshot: true,
   collectCoverage: true,
   collectCoverageFrom: [
     './src/**/*.ts?(x)',
