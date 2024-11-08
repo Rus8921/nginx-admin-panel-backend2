@@ -2,6 +2,7 @@ package User
 
 import (
 	"fmt"
+	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Permission"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -12,6 +13,7 @@ type User struct {
 	Email        string `gorm:"unique;not null"` // Уникальный email
 	Username     string `gorm:"unique;not null"` // Уникальное имя пользователя
 	HashPassword string `gorm:"not null"`        // Хэшированный пароль
+	Permissions  []Permission.Permission
 }
 
 // CreateUser создает нового пользователя в базе данных

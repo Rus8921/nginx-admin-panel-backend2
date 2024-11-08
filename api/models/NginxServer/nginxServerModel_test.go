@@ -19,9 +19,9 @@ func InitTestDbNginx() (*gorm.DB, error) {
 	}
 
 	servers := []NginxServer{
-		{Ip: "test1@example.com", Domain: "testuser1", isActive: true},
-		{Ip: "test2@example.com", Domain: "testuser2", isActive: false},
-		{Ip: "test3@example.com", Domain: "testuser3", isActive: true},
+		{Ip: "test1@example.com", Domain: "testuser1", IsActive: true},
+		{Ip: "test2@example.com", Domain: "testuser2", IsActive: false},
+		{Ip: "test3@example.com", Domain: "testuser3", IsActive: true},
 	}
 
 	for i := range servers {

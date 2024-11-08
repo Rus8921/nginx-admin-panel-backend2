@@ -99,5 +99,5 @@ func ActiveNginxServerHandler(context *gin.Context) {
 		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "error geting server data", "details": err.Error()})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{"message": "status of server changed", "NginxServer": server})
+	context.JSON(http.StatusOK, gin.H{"message": "status of server changed", "NginxServer": server.IsActive})
 }

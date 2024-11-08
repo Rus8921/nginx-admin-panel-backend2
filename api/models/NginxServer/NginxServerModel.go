@@ -2,6 +2,8 @@ package NginxServer
 
 import (
 	"fmt"
+	models "gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Site"
+
 	//"golang.org/x/net/ipv4"
 	"gorm.io/gorm"
 )
@@ -9,13 +11,15 @@ import (
 type NginxServer struct {
 	gorm.Model
 	//Ip     ipv4.Conn `gorm:"unique;not null"` // потом надо переписать на него, если это возможно
-	Ip       string `gorm:"unique;not null"`
-	Domain   string `gorm:"unique;not null"`
-	isActive bool   `gorm:"not null"`
+	Ip            string `gorm:"unique;not null"`
+	Domain        string `gorm:"unique;not null"`
+	ServerName    string `gorm:"unique;not null"`
+	IsActive      bool   `gorm:"not null"`
+	SitesOfServer []models.Site
 }
 
 func CreateNginxSeerver(db *gorm.DB, server *NginxServer) error {
-	server.isActive = false
+	server.IsActive = false
 	result := db.Create(server)
 	return result.Error
 }
@@ -71,10 +75,10 @@ func ActivateOrUnactivateServer(db *gorm.DB, id uint) error {
 	if err != nil {
 		return fmt.Errorf("error finding server: %w", err)
 	}
-	if server.isActive == true {
-		server.isActive = false
+	if server.IsActive == true {
+		server.IsActive = false
 	} else {
-		server.isActive = true
+		server.IsActive = true
 	}
 	return nil
 }
