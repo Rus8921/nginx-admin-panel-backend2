@@ -1,6 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 import { WebsitesDataInterface } from "../types";
-import { IAllServersItem, IAllServersResponse } from "../types/servers";
+import {
+  IAllServersItem,
+  IAllServersResponse,
+  IServerByIdResponse,
+} from "../types/servers";
 
 class NginxPanelApiService {
   API = "stubs";
@@ -29,6 +33,25 @@ class NginxPanelApiService {
           let data: AxiosResponse<IAllServersResponse> = await axios.get(
             `${this.API}/servers/${datasetId}.json`
           );
+          console.log(data);
+          res(data);
+        }, 500);
+      }
+    ).then((data) => {
+      return data;
+    });
+
+    return resp;
+  }
+
+  async getServerById(serverId: number) {
+    let resp = await new Promise(
+      (res: (data: AxiosResponse<IServerByIdResponse>) => void) => {
+        setTimeout(async () => {
+          let data: AxiosResponse<IServerByIdResponse> = await axios.get(
+            `${this.API}/servers/_id/0.json`
+          );
+          console.log(`data: ${data}`);
           res(data);
         }, 500);
       }

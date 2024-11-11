@@ -1,7 +1,7 @@
 import { getByTestId, render } from "@testing-library/react";
-import renderer from "react-test-renderer"
+import renderer from "react-test-renderer";
 import { WebsiteInterface } from "../../../../types";
-import WebsiteCard from "../WebsiteCard";
+import { WebsiteCard } from "../WebsiteCard";
 
 const websiteTestData: WebsiteInterface = {
   id: 1,
@@ -10,7 +10,7 @@ const websiteTestData: WebsiteInterface = {
   ipCount: 3,
   upstreamsCount: 2,
   status: "active",
-}
+};
 
 describe("<WebsiteCard />", () => {
   it("renders website's card correctly", () => {

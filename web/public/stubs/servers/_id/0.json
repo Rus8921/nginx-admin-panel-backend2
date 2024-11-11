@@ -1,0 +1,42 @@
+{
+  "id": 1,
+  "serverName": "server 1",
+  "domainName": "domain 1",
+  "ip": "192.158.1.31",
+  "active": "active",
+  "sshKey": "key_key_key",
+  "connectedWebsites": [
+    {
+      "id": 0,
+      "name": "First website",
+      "url": "somedomain.com/",
+      "ipCount": 3,
+      "upstreamsCount": 3,
+      "status": "active"
+    },
+    {
+      "id": 1,
+      "name": "Second website",
+      "url": "anotherdomain.com/",
+      "ipCount": 5,
+      "upstreamsCount": 2,
+      "status": "inactive"
+    },
+    {
+      "id": 2,
+      "name": "Another website",
+      "url": "somedomain.com/",
+      "ipCount": 7,
+      "upstreamsCount": 1,
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "name": "One more website",
+      "url": "one.more.very.very.long.domain/",
+      "ipCount": 15,
+      "upstreamsCount": 4,
+      "status": "active"
+    }
+  ]
+}

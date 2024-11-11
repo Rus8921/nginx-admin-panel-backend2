@@ -67,14 +67,6 @@ const router = createBrowserRouter([
               </ProtectedRoute>
             ),
           },
-          {
-            path: ":websiteId/edit",
-            element: (
-              <ProtectedRoute>
-                <EditWebsitePage />
-              </ProtectedRoute>
-            ),
-          },
         ],
       },
       {
@@ -101,14 +93,6 @@ const router = createBrowserRouter([
             element: (
               <ProtectedRoute>
                 <ServerIdPage />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: ":serverId/edit",
-            element: (
-              <ProtectedRoute>
-                <EditServerPage />
               </ProtectedRoute>
             ),
           },
