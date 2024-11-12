@@ -24,6 +24,7 @@ export const ServerConfigPage = () => {
   const [sshKey, setSshKey] = useState(``);
 
   const {
+    setValue,
     register,
     handleSubmit,
     formState: { errors },
@@ -33,16 +34,14 @@ export const ServerConfigPage = () => {
 
   useEffect(() => {
     if (serverId) {
-      // nginxPanelApiService.getServerById(Number(serverId)).then((response) => {
-      //   console.log(`response: ${response.data}`);
-      //   if (response.status === 200) {
-      //     setServerData(response.data);
-      //   }
-      // });
       new Promise(function (resolve, reject) {
         setTimeout(resolve, 500);
       }).then(function () {
         const data: IServerByIdResponse = JSON.parse(jsonString);
+        if (sshKey === "") {
+          setSshKey(data.sshKey);
+          setValue("sshKey", data.sshKey);
+        }
         setServerData(data);
       });
     }

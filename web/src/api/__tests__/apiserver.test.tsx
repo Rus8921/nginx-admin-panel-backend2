@@ -1,8 +1,13 @@
+/* eslint-disable jest/valid-expect */
+/* eslint-disable jest/no-conditional-expect */
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import nginxPanelApiService from "../NginxPanelApiService";
 
 describe("nginxPanelApiService", () => {
   it("service API path", () => {
-    expect(nginxPanelApiService.API).toBe("stubs" || "http://localhost:8080" || "/api/");
+    expect(nginxPanelApiService.API).toBe(
+      "stubs" || "http://localhost:8080" || "/api/"
+    );
   });
 
   it("service API GET /websites call", async () => {
@@ -21,4 +26,3 @@ describe("nginxPanelApiService", () => {
     }
   });
 });
-
