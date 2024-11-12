@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import WebsiteCard from "../../ui/components/cards/WebsiteCard";
+import { WebsiteCard } from "../../ui/components/cards/WebsiteCard";
 import nginxPanelApiService from "../../api/NginxPanelApiService";
 import { WebsiteInterface } from "../../types";
 import { Loader } from "react-feather";

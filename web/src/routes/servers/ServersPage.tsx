@@ -26,7 +26,7 @@ export const ServersPage = ({ datasetId }: { datasetId?: number }) => {
       {servers.length === 0 ? (
         <></>
       ) : (
-        servers.map((item) => <ServerCard server={item} />)
+        servers.map((item) => <ServerCard server={item} key={item.id} />)
       )}
     </main>
   );

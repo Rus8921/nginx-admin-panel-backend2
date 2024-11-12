@@ -1,5 +1,6 @@
 import { Path } from "react-hook-form";
 import { CommonButtonTypes } from "../../../types/commonButtonTypes";
+import { useEffect } from "react";
 
 export const CommonButton = ({
   isSubmit,
@@ -16,10 +17,11 @@ export const CommonButton = ({
   if (type === "blueBgWhiteText") {
     additionalClasses = "bg-main-clr text-white";
   } else if (type === "redBgWhiteText") {
-    additionalClasses = "";
+    additionalClasses = "bg-transparent border border-red";
   } else if (type === "transparentBgMainText") {
-    additionalClasses = "";
+    additionalClasses = "text-main-clr bg-transparent border border-main-clr";
   }
+
   return (
     <button
       className={`w-[440px] h-11 rounded-md ${additionalClasses}`}
