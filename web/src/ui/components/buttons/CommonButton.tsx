@@ -19,7 +19,7 @@ export const CommonButton = ({
   } else if (type === "redBgWhiteText") {
     additionalClasses = "bg-transparent border border-red";
   } else if (type === "transparentBgMainText") {
-    additionalClasses = "";
+    additionalClasses = "text-main-clr bg-transparent border border-main-clr";
   }
 
   return (
