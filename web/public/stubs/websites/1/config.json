@@ -1,0 +1,86 @@
+{
+  "id": 0,
+  "name": "First website",
+  "domain": "somedomain.com/",
+  "ipAddresses": [
+    "196.192.0.0",
+    "196.194.97.0",
+    "212.192.64.0"
+  ],
+  "upstreams": [
+    {
+      "id": 0,
+      "name": "upstream_1",
+      "connectedServers": [
+        {
+          "id": 0,
+          "name": "server_name_1",
+          "param": "weight=5"
+        },
+        {
+          "id": 1,
+          "name": "server_name_2",
+          "param": "backup"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "upstream_2",
+      "connectedServers": [
+        {
+          "id": 1,
+          "name": "server_name_2",
+          "param": "weight=2"
+        },
+        {
+          "id": 2,
+          "name": "server_name_3",
+          "param": "backup"
+        }
+      ]
+    }
+  ],
+  "locations": [
+    {
+      "id": 0,
+      "name": "/location/address/1",
+      "upstream": {
+        "id": 1,
+        "name": "upstream_2"
+      }
+    },
+    {
+      "id": 1,
+      "name": "/location/address/2",
+      "upstream": {
+        "id": 0,
+        "name": "upstream_1"
+      }
+    },
+    {
+      "id": 2,
+      "name": "/location/address/3",
+      "upstream": {
+        "id": 1,
+        "name": "upstream_2"
+      }
+    }
+  ],
+  "sslCertificates": [
+    {
+      "id": 0,
+      "crtFile": "website_cert.crt",
+      "keyFile": "website_cert.key",
+      "expirationDate": "2024-11-25T21:00:00.000Z",
+      "isActive": true
+    },
+    {
+      "id": 1,
+      "crtFile": "website_cert_backup.crt",
+      "keyFile": "website_cert_backup.key",
+      "expirationDate": "2025-12-15T21:00:00.000Z",
+      "isActive": false
+    }
+  ]
+}

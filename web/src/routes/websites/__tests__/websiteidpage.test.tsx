@@ -1,5 +1,5 @@
 import renderer from "react-test-renderer"
-import { WebsiteIdPage } from "../WebsiteIdPage";
+import { WebsiteIdPage } from "../WebsiteConfigs/WebsiteIdPage";
 
 describe("<WebsiteIdPage />", () => {
   it("renders website page layout", () => {
