@@ -31,11 +31,11 @@ func main() {
 
 	site := router.Group("/site")
 	{
-		site.GET("/site")
-		site.GET("/site_list")
-		site.POST("/site")
-		site.PUT("/site")
-		site.DELETE("/site")
+		site.GET("/site_get", Handlers.GetSiteHandler)
+		//site.GET("/site_list")
+		site.POST("/site", Handlers.AddSiteHandler)
+		site.PUT("/site", Handlers.UpdateSiteHandler)
+		site.DELETE("/site", Handlers.DeleteSiteHandler)
 	}
 
 	err := router.Run(":8080")
