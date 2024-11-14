@@ -52,27 +52,46 @@ func DeleteSiteHandler(context *gin.Context) {
 	context.JSON(http.StatusOK, gin.H{"message": "Site deleted"})
 }
 
+//func UpdateSiteHandler(context *gin.Context) {
+//	var credentials struct {
+//		Id       uint   `json:"id"`
+//		Domain   string `json:"domain"`
+//		SiteName string `json:"site_name"`
+//	}
+//	if err := context.ShouldBindJSON(&credentials); err != nil {
+//		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()})
+//		return
+//	}
+//	var site models.Site
+//	if err := context.ShouldBindJSON(&site); err != nil {
+//		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()})
+//		return
+//	}
+//	updatedSite, err := models.UpdateSite(configs.Db, credentials.Id, site)
+//	if err != nil {
+//		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
+//		return
+//	}
+//	context.JSON(http.StatusOK, gin.H{"message": "Site updated", "Site": updatedSite})
+//}
+
 func UpdateSiteHandler(context *gin.Context) {
 	var credentials struct {
 		Id       uint   `json:"id"`
+		SiteName string `json:"SiteName"`
 		Domain   string `json:"domain"`
-		SiteName string `json:"site_name"`
 	}
 	if err := context.ShouldBindJSON(&credentials); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()})
 		return
 	}
-	var site models.Site
-	if err := context.ShouldBindJSON(&site); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()})
-		return
-	}
-	updatedSite, err := models.UpdateSite(configs.Db, credentials.Id, site)
+	site, err := models.UpdateSite(configs.Db, credentials.Id, models.Site{SiteName: credentials.SiteName, Domain: credentials.Domain})
 	if err != nil {
 		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{"message": "Site updated", "Site": updatedSite})
+	context.JSON(http.StatusOK, gin.H{"message": "Site updated", "Site": site})
+
 }
 
 func ActivateOrUnactivateSiteHandler(context *gin.Context) {
