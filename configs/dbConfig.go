@@ -3,7 +3,13 @@ package configs
 import (
 	"fmt"
 	"github.com/joho/godotenv"
+	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Admin"
+	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Location"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/NginxServer"
+	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Permission"
+	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/SSLcertificat"
+	models "gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Site"
+	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Upstreams"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/User"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -56,12 +62,42 @@ func InitDb() {
 	}
 
 	if err := Db.AutoMigrate(&User.User{}); err != nil {
-		log.Fatalf("failed to migrate database: %v", err)
+		log.Fatalf("failed to migrate user database: %v", err)
 	} else {
 		log.Printf("successfully migrated database")
 	}
 	if err := Db.AutoMigrate(&NginxServer.NginxServer{}); err != nil {
-		log.Fatalf("failed to migrate database: %v", err)
+		log.Fatalf("failed to migrate server database: %v", err)
+	} else {
+		log.Printf("successfully migrated database")
+	}
+	if err := Db.AutoMigrate(&models.Site{}); err != nil {
+		log.Fatalf("failed to migrate site database: %v", err)
+	} else {
+		log.Printf("successfully migrated database")
+	}
+	if err := Db.AutoMigrate(&Admin.Admin{}); err != nil {
+		log.Fatalf("failed to migrate admin database: %v", err)
+	} else {
+		log.Printf("successfully migrated database")
+	}
+	if err := Db.AutoMigrate(&Permission.Permission{}); err != nil {
+		log.Fatalf("failed to migrate permission database: %v", err)
+	} else {
+		log.Printf("successfully migrated database")
+	}
+	if err := Db.AutoMigrate(&SSLcertificat.SSL{}); err != nil {
+		log.Fatalf("failed to migrate ssl database: %v", err)
+	} else {
+		log.Printf("successfully migrated database")
+	}
+	if err := Db.AutoMigrate(&Upstreams.Upstream{}); err != nil {
+		log.Fatalf("failed to migrate upstream database: %v", err)
+	} else {
+		log.Printf("successfully migrated database")
+	}
+	if err := Db.AutoMigrate(&Location.Location{}); err != nil {
+		log.Fatalf("failed to migrate location database: %v", err)
 	} else {
 		log.Printf("successfully migrated database")
 	}

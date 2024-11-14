@@ -13,7 +13,7 @@ func AddNginxServerHandler(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()})
 		return
 	}
-	if err := NginxServer.CreateNginxSeerver(configs.Db, &nginxServer); err != nil {
+	if err := NginxServer.CreateNginxServer(configs.Db, &nginxServer); err != nil {
 		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
 		return
 	}

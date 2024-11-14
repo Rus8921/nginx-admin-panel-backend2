@@ -25,17 +25,19 @@ func main() {
 		nginxServer.POST("/nginx_server_activate", Handlers.ActiveNginxServerHandler)
 		nginxServer.PUT("/nginx_server_change", Handlers.UpdateNginxServerHandler)
 		nginxServer.GET("/nginx_server_list", Handlers.GetNginxServersAllHandler)
-		nginxServer.GET("/nginx_server_users")
+		//nginxServer.GET("/nginx_server_users")
 		nginxServer.DELETE("/nginx_server_del", Handlers.DeleteNginxServerHandler)
 	}
 
 	site := router.Group("/site")
 	{
 		site.GET("/site_get", Handlers.GetSiteHandler)
-		//site.GET("/site_list")
-		site.POST("/site", Handlers.AddSiteHandler)
-		site.PUT("/site", Handlers.UpdateSiteHandler)
-		site.DELETE("/site", Handlers.DeleteSiteHandler)
+		site.GET("/site_list", Handlers.GetSitesAllHandler)
+		site.POST("/site_add", Handlers.AddSiteHandler)
+		site.POST("/site_activate", Handlers.ActivateOrUnactivateSiteHandler)
+		site.PUT("/site_change", Handlers.UpdateSiteHandler)
+		site.DELETE("/site_del", Handlers.DeleteSiteHandler)
+
 	}
 
 	admin := router.Group("/admin")

@@ -79,6 +79,7 @@ func ActivateOrUnactivateSiteHandler(context *gin.Context) {
 	var credentials struct {
 		Id uint `json:"id"`
 	}
+	var site models.Site
 	if err := context.ShouldBindJSON(&credentials); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()})
 		return
@@ -88,5 +89,19 @@ func ActivateOrUnactivateSiteHandler(context *gin.Context) {
 		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{"message": "Site activated/unactivated"})
+	site, err = models.GetSite(configs.Db, credentials.Id)
+	if err != nil {
+		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"message": "status of site changed", "Site": site.IsActive})
+}
+
+func GetSitesAllHandler(context *gin.Context) {
+	sites, err := models.GetSitesAll(configs.Db)
+	if err != nil {
+		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"message": "Sites found", "Sites": sites})
 }

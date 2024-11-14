@@ -25,7 +25,7 @@ func InitTestDbNginx() (*gorm.DB, error) {
 	}
 
 	for i := range servers {
-		if err := CreateNginxSeerver(db, &servers[i]); err != nil {
+		if err := CreateNginxServer(db, &servers[i]); err != nil {
 			return nil, err // Обработка ошибки создания пользователя
 		}
 	}
@@ -37,7 +37,7 @@ func TestCreateNginxSeerver(t *testing.T) {
 	assert.NoError(t, err)
 
 	server := &NginxServer{Ip: "testIp", Domain: "testDomain"}
-	assert.NoError(t, CreateNginxSeerver(db, server))
+	assert.NoError(t, CreateNginxServer(db, server))
 
 	var foundServer NginxServer
 
@@ -82,7 +82,7 @@ func TestDeleteNginxServer(t *testing.T) {
 	assert.NoError(t, err)
 
 	server := &NginxServer{Ip: "testIp", Domain: "testDomain"}
-	assert.NoError(t, CreateNginxSeerver(db, server))
+	assert.NoError(t, CreateNginxServer(db, server))
 
 	assert.NoError(t, DeleteNginxServer(db, 1))
 
@@ -96,7 +96,7 @@ func TestUpdateNginxServer(t *testing.T) {
 	assert.NoError(t, err)
 
 	server := &NginxServer{Ip: "testIp", Domain: "testDomain"}
-	assert.NoError(t, CreateNginxSeerver(db, server))
+	assert.NoError(t, CreateNginxServer(db, server))
 
 	server.Ip = "newIp"
 	server.Domain = "newDomain"
@@ -106,3 +106,16 @@ func TestUpdateNginxServer(t *testing.T) {
 	assert.Equal(t, "newIp", updatedServer.Ip)
 	assert.Equal(t, "newDomain", updatedServer.Domain)
 }
+
+//func TestActivateOrUnactivateServer(t *testing.T) {
+//	db, err := InitTestDbNginx()
+//	assert.NoError(t, err)
+//
+//	server := &NginxServer{Ip: "testIp", Domain: "testDomain"}
+//	assert.NoError(t, CreateNginxServer(db, server))
+//	assert.NoError(t, ActivateOrUnactivateServer(db, 1))
+//
+//	var foundServer NginxServer
+//	assert.NoError(t, db.Where("id = ?", server.ID).First(&foundServer).Error)
+//	assert.False(t, foundServer.IsActive)
+//}

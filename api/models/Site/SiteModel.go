@@ -2,23 +2,19 @@ package models
 
 import (
 	"fmt"
-	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Configuration"
-	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Location"
-	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Permission"
-	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/SSLcertificat"
 	"gorm.io/gorm"
 )
 
 type Site struct {
 	gorm.Model
-	SiteName       string `gorm:"unique;not null"`
-	Domain         string `gorm:"unique;not null"`
-	IsActive       bool
-	NginxServerID  uint                           `gorm:"not null"`
-	Configurations []*Configuration.Configuration `gorm:"many2many:configuration_site;"`
-	Permission     Permission.Permission
-	Location       []*Location.Location `gorm:"many2many:location_site;"`
-	SSlcerificate  []SSLcertificat.SSL
+	SiteName      string `gorm:"unique;not null"`
+	Domain        string `gorm:"unique;not null"`
+	IsActive      bool
+	NginxServerID uint //`gorm:"not null"`
+	//Configurations []*Configuration.Configuration `gorm:"many2many:configuration_site;"`
+	//Permission     Permission.Permission
+	//Location       []*Location.Location `gorm:"many2many:location_site;"`
+	//SSlcerificate  []SSLcertificat.SSL
 }
 
 func CreateSite(db *gorm.DB, site *Site) error {
@@ -33,6 +29,14 @@ func GetSite(db *gorm.DB, id uint) (Site, error) {
 		return Site{}, fmt.Errorf("Site does not exist: %w", err)
 	}
 	return site, nil
+}
+
+func GetSitesAll(db *gorm.DB) ([]Site, error) {
+	var sites []Site
+	if err := db.Find(&sites).Error; err != nil {
+		return nil, fmt.Errorf("error getting sites: %w", err)
+	}
+	return sites, nil
 }
 
 func DeleteSite(db *gorm.DB, id uint) error {
@@ -72,8 +76,14 @@ func ActivateOrUnactivateSite(db *gorm.DB, id uint) error {
 	}
 	if site.IsActive == true {
 		site.IsActive = false
+		if err := db.Save(&site).Error; err != nil {
+			return fmt.Errorf("error saving server: %w", err)
+		}
 	} else {
 		site.IsActive = true
+		if err := db.Save(&site).Error; err != nil {
+			return fmt.Errorf("error saving server: %w", err)
+		}
 	}
 	return nil
 }
