@@ -12,7 +12,7 @@ type SSL struct {
 	FileCrt  string // Path to the certificate file
 	FileKey  string // Path to the key file
 	IsActive bool   // Indicates if the SSL certificate is active
-	SiteID   uint   //`gorm:"unique;not null"` // ID of the site associated with the SSL certificate
+	SiteID   uint   // ID of the site associated with the SSL certificate
 }
 
 // CreateSSL inserts a new SSL certificate record into the database.
