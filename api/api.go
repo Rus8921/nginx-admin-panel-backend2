@@ -38,6 +38,15 @@ func main() {
 		site.DELETE("/site", Handlers.DeleteSiteHandler)
 	}
 
+	admin := router.Group("/admin")
+	{
+		admin.GET("/admin_get", Handlers.GetAdminHandler)
+		admin.POST("/admin_add", Handlers.RegistrationAdminHandler)
+		admin.POST("/admin_login", Handlers.LoginAdminHandler)
+		admin.PUT("/admin_change", Handlers.UpdateAdminHandler)
+		admin.DELETE("/admin_del", Handlers.DeleteAdminHandler)
+	}
+
 	err := router.Run(":8080")
 	if err != nil {
 		return

@@ -14,7 +14,7 @@ type Site struct {
 	SiteName       string `gorm:"unique;not null"`
 	Domain         string `gorm:"unique;not null"`
 	IsActive       bool
-	NginxServerID  uint
+	NginxServerID  uint                           `gorm:"not null"`
 	Configurations []*Configuration.Configuration `gorm:"many2many:configuration_site;"`
 	Permission     Permission.Permission
 	Location       []*Location.Location `gorm:"many2many:location_site;"`
