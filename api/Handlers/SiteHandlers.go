@@ -124,3 +124,19 @@ func GetSitesAllHandler(context *gin.Context) {
 	}
 	context.JSON(http.StatusOK, gin.H{"message": "Sites found", "Sites": sites})
 }
+
+func GetAllSSLCertificatesHandler(context *gin.Context) {
+	var credentials struct {
+		Id uint `json:"id"`
+	}
+	if err := context.ShouldBindJSON(&credentials); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()})
+		return
+	}
+	ssl, err := models.GetAllSSLCertificates(configs.Db, credentials.Id)
+	if err != nil {
+		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"message": "SSL certificates found", "SSL": ssl})
+}

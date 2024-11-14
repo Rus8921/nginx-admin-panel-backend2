@@ -7,6 +7,9 @@ import (
 	"testing"
 )
 
+// InitTestDbNginx initializes an in-memory SQLite database for testing purposes.
+// It creates a table for NginxServer and populates it with initial data.
+// Returns the database connection and any error encountered.
 func InitTestDbNginx() (*gorm.DB, error) {
 	db, err := gorm.Open(sqlite.Open(":memory:"), &gorm.Config{})
 	if err != nil {
@@ -26,12 +29,14 @@ func InitTestDbNginx() (*gorm.DB, error) {
 
 	for i := range servers {
 		if err := CreateNginxServer(db, &servers[i]); err != nil {
-			return nil, err // Обработка ошибки создания пользователя
+			return nil, err // Error handling for server creation
 		}
 	}
 	return db, nil
 }
 
+// TestCreateNginxSeerver tests the CreateNginxServer function.
+// It verifies that a new NginxServer can be created and retrieved correctly.
 func TestCreateNginxSeerver(t *testing.T) {
 	db, err := InitTestDbNginx()
 	assert.NoError(t, err)
@@ -46,6 +51,8 @@ func TestCreateNginxSeerver(t *testing.T) {
 	assert.Equal(t, "testDomain", foundServer.Domain)
 }
 
+// TestGetNginxServer tests the GetNginxServer function.
+// It verifies that NginxServers can be retrieved by their ID.
 func TestGetNginxServer(t *testing.T) {
 	db, err := InitTestDbNginx()
 	assert.NoError(t, err)
@@ -65,9 +72,10 @@ func TestGetNginxServer(t *testing.T) {
 	foundServer3, err := GetNginxServer(db, 3)
 	assert.NoError(t, err)
 	assert.Equal(t, uint(3), foundServer3.ID)
-
 }
 
+// TestGetNginxServersAll tests the GetNginxServersAll function.
+// It verifies that all NginxServers can be retrieved.
 func TestGetNginxServersAll(t *testing.T) {
 	db, err := InitTestDbNginx()
 	assert.NoError(t, err)
@@ -77,6 +85,8 @@ func TestGetNginxServersAll(t *testing.T) {
 	assert.Len(t, servers, 3)
 }
 
+// TestDeleteNginxServer tests the DeleteNginxServer function.
+// It verifies that an NginxServer can be deleted and is no longer retrievable.
 func TestDeleteNginxServer(t *testing.T) {
 	db, err := InitTestDbNginx()
 	assert.NoError(t, err)
@@ -91,6 +101,8 @@ func TestDeleteNginxServer(t *testing.T) {
 	assert.Error(t, db.Where("id = ?", 1).First(&foundServer).Error)
 }
 
+// TestUpdateNginxServer tests the UpdateNginxServer function.
+// It verifies that an NginxServer can be updated and the changes are saved correctly.
 func TestUpdateNginxServer(t *testing.T) {
 	db, err := InitTestDbNginx()
 	assert.NoError(t, err)
@@ -107,15 +119,28 @@ func TestUpdateNginxServer(t *testing.T) {
 	assert.Equal(t, "newDomain", updatedServer.Domain)
 }
 
-//func TestActivateOrUnactivateServer(t *testing.T) {
-//	db, err := InitTestDbNginx()
-//	assert.NoError(t, err)
-//
-//	server := &NginxServer{Ip: "testIp", Domain: "testDomain"}
-//	assert.NoError(t, CreateNginxServer(db, server))
-//	assert.NoError(t, ActivateOrUnactivateServer(db, 1))
-//
-//	var foundServer NginxServer
-//	assert.NoError(t, db.Where("id = ?", server.ID).First(&foundServer).Error)
-//	assert.False(t, foundServer.IsActive)
-//}
+// ActivateOrUnactivateServer tests the ActivateOrUnactivateServer function.
+// It verifies that an NginxServer can be activated and deactivated correctly.
+func TestActivateOrUnactivateServer(t *testing.T) {
+	db, err := InitTestDbNginx()
+	assert.NoError(t, err)
+
+	server := &NginxServer{Ip: "testIp", Domain: "testDomain"}
+	assert.NoError(t, CreateNginxServer(db, server))
+
+	// Activate the server
+	assert.NoError(t, ActivateOrUnactivateServer(db, server.ID))
+	var foundServer NginxServer
+	assert.NoError(t, db.Where("id = ?", server.ID).First(&foundServer).Error)
+	assert.True(t, foundServer.IsActive)
+
+	// Deactivate the server
+	assert.NoError(t, ActivateOrUnactivateServer(db, server.ID))
+	assert.NoError(t, db.Where("id = ?", server.ID).First(&foundServer).Error)
+	assert.False(t, foundServer.IsActive)
+
+	// Edge case: Non-existent server
+	err = ActivateOrUnactivateServer(db, 999)
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "error finding server")
+}

@@ -2,27 +2,37 @@ package models
 
 import (
 	"fmt"
+	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Configuration"
+	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Location"
+	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Permission"
+	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/SSLcertificat"
 	"gorm.io/gorm"
 )
 
+// Site represents the site model with fields for site name, domain,
+// active status, and associated Nginx server ID.
 type Site struct {
 	gorm.Model
-	SiteName      string `gorm:"unique;not null"`
-	Domain        string `gorm:"unique;not null"`
-	IsActive      bool
-	NginxServerID uint //`gorm:"not null"`
-	//Configurations []*Configuration.Configuration `gorm:"many2many:configuration_site;"`
-	//Permission     Permission.Permission
-	//Location       []*Location.Location `gorm:"many2many:location_site;"`
-	//SSlcerificate  []SSLcertificat.SSL
+	SiteName       string                      `gorm:"unique;not null"` // Unique and non-null site name
+	Domain         string                      `gorm:"unique;not null"` // Unique and non-null domain
+	IsActive       bool                        // Active status of the site
+	NginxServerID  uint                        // Associated Nginx server ID
+	Configurations Configuration.Configuration // one-to-one relationship
+	Permission     Permission.Permission       // one-to-one relationship
+	Location       []*Location.Location        `gorm:"many2many:location_site;"` // many-to-many relationship
+	SSlcerificate  []SSLcertificat.SSL         // multiple certificates for one site
 }
 
+// CreateSite creates a new site in the database with the given site details.
+// The site is initially set to inactive.
 func CreateSite(db *gorm.DB, site *Site) error {
 	site.IsActive = false
 	result := db.Create(site)
 	return result.Error
 }
 
+// GetSite retrieves a site from the database by its ID.
+// Returns the site and an error if the site does not exist.
 func GetSite(db *gorm.DB, id uint) (Site, error) {
 	var site Site
 	if err := db.Where("id = ?", id).First(&site).Error; err != nil {
@@ -31,6 +41,8 @@ func GetSite(db *gorm.DB, id uint) (Site, error) {
 	return site, nil
 }
 
+// GetSitesAll retrieves all sites from the database.
+// Returns a slice of sites and an error if any occurs.
 func GetSitesAll(db *gorm.DB) ([]Site, error) {
 	var sites []Site
 	if err := db.Find(&sites).Error; err != nil {
@@ -39,6 +51,19 @@ func GetSitesAll(db *gorm.DB) ([]Site, error) {
 	return sites, nil
 }
 
+func GetAllSSLCertificates(db *gorm.DB, id uint) ([]SSLcertificat.SSL, error) {
+	var site Site
+	site, err := GetSite(db, id)
+	if err != nil {
+		return nil, fmt.Errorf("error finding server: %w", err)
+	}
+	var ssl []SSLcertificat.SSL
+	err = db.Model(&site).Association("SSlcerificate").Find(&ssl)
+	return ssl, err
+}
+
+// DeleteSite deletes a site from the database by its ID.
+// Returns an error if the site does not exist or if any other error occurs.
 func DeleteSite(db *gorm.DB, id uint) error {
 	result := db.Delete(&Site{}, id)
 	if result.Error != nil {
@@ -50,6 +75,8 @@ func DeleteSite(db *gorm.DB, id uint) error {
 	return nil
 }
 
+// UpdateSite updates the details of an existing site in the database by its ID.
+// Returns the updated site and an error if the site does not exist or if any other error occurs.
 func UpdateSite(db *gorm.DB, id uint, updatedSite Site) (Site, error) {
 	var site Site
 	site, err := GetSite(db, id)
@@ -68,6 +95,8 @@ func UpdateSite(db *gorm.DB, id uint, updatedSite Site) (Site, error) {
 	return site, nil
 }
 
+// ActivateOrUnactivateSite toggles the active status of a site by its ID.
+// Returns an error if the site does not exist or if any other error occurs.
 func ActivateOrUnactivateSite(db *gorm.DB, id uint) error {
 	var site Site
 	site, err := GetSite(db, id)
@@ -77,12 +106,12 @@ func ActivateOrUnactivateSite(db *gorm.DB, id uint) error {
 	if site.IsActive == true {
 		site.IsActive = false
 		if err := db.Save(&site).Error; err != nil {
-			return fmt.Errorf("error saving server: %w", err)
+			return fmt.Errorf("error saving site changes: %w", err)
 		}
 	} else {
 		site.IsActive = true
 		if err := db.Save(&site).Error; err != nil {
-			return fmt.Errorf("error saving server: %w", err)
+			return fmt.Errorf("error saving site changes: %w", err)
 		}
 	}
 	return nil

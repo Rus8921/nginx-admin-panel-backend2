@@ -7,21 +7,32 @@ import (
 	"gorm.io/gorm"
 )
 
-// User представляет модель пользователя
+// User represents the user model
 type User struct {
 	gorm.Model
-	Email        string `gorm:"unique;not null"` // Уникальный email
-	Username     string `gorm:"unique;not null"` // Уникальное имя пользователя
-	HashPassword string `gorm:"not null"`        // Хэшированный пароль
-	Permissions  []Permission.Permission
+	Email        string                  `gorm:"unique;not null"` // Unique email
+	Username     string                  `gorm:"unique;not null"` // Unique username
+	HashPassword string                  `gorm:"not null"`        // Hashed password
+	Permissions  []Permission.Permission // One-to-one relationship with the Permission table
 }
 
-// CreateUser создает нового пользователя в базе данных
+// CreateUser creates a new user in the database
+// Parameters:
+// - db: the database connection
+// - user: the user to be created
+// Returns:
+// - error: an error if the creation fails
 func CreateUser(db *gorm.DB, user *User) error {
 	result := db.Create(user)
 	return result.Error
 }
 
+// hashPassword hashes a plain text password
+// Parameters:
+// - password: the plain text password
+// Returns:
+// - string: the hashed password
+// - error: an error if the hashing fails
 func hashPassword(password string) (string, error) {
 	hashPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
@@ -30,6 +41,12 @@ func hashPassword(password string) (string, error) {
 	return string(hashPassword), nil
 }
 
+// CheckPassword checks if the provided password matches the hashed password
+// Parameters:
+// - hashPassword: the hashed password
+// - password: the plain text password
+// Returns:
+// - bool: true if the passwords match, false otherwise
 func CheckPassword(hashPassword, password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hashPassword), []byte(password))
 	if err != nil {
@@ -38,6 +55,12 @@ func CheckPassword(hashPassword, password string) bool {
 	return true
 }
 
+// validateUser checks if the username or email already exists in the database
+// Parameters:
+// - db: the database connection
+// - user: the user to be validated
+// Returns:
+// - error: an error if the username or email already exists
 func validateUser(db *gorm.DB, user User) error {
 	var existingUser User
 	if err := db.Where("username = ?", user.Username).First(&existingUser).Error; err == nil {
@@ -49,6 +72,14 @@ func validateUser(db *gorm.DB, user User) error {
 	return nil
 }
 
+// LoginUser logs in a user by checking the username and password
+// Parameters:
+// - db: the database connection
+// - username: the username of the user
+// - password: the plain text password of the user
+// Returns:
+// - *User: the logged-in user
+// - error: an error if the login fails
 func LoginUser(db *gorm.DB, username string, password string) (*User, error) {
 	var user User
 	if err := db.Where("username = ?", username).First(&user).Error; err != nil {
@@ -61,6 +92,12 @@ func LoginUser(db *gorm.DB, username string, password string) (*User, error) {
 	return &user, nil
 }
 
+// RegistrateUser registers a new user in the database
+// Parameters:
+// - db: the database connection
+// - user: the user to be registered
+// Returns:
+// - error: an error if the registration fails
 func RegistrateUser(db *gorm.DB, user User) error {
 	if err := validateUser(db, user); err != nil {
 		return err
@@ -77,6 +114,13 @@ func RegistrateUser(db *gorm.DB, user User) error {
 	return nil
 }
 
+// GetUserById retrieves a user by their ID
+// Parameters:
+// - db: the database connection
+// - id: the ID of the user
+// Returns:
+// - User: the retrieved user
+// - error: an error if the retrieval fails
 func GetUserById(db *gorm.DB, id uint) (User, error) {
 	var user User
 	if err := db.Where("id = ?", id).First(&user).Error; err != nil {
@@ -85,6 +129,13 @@ func GetUserById(db *gorm.DB, id uint) (User, error) {
 	return user, nil
 }
 
+// GetUserByUsername retrieves a user by their username
+// Parameters:
+// - db: the database connection
+// - username: the username of the user
+// Returns:
+// - User: the retrieved user
+// - error: an error if the retrieval fails
 func GetUserByUsername(db *gorm.DB, username string) (User, error) {
 	var user User
 	if err := db.Where("username = ?", username).First(&user).Error; err != nil {
@@ -93,6 +144,12 @@ func GetUserByUsername(db *gorm.DB, username string) (User, error) {
 	return user, nil
 }
 
+// DeleteUser deletes a user by their ID
+// Parameters:
+// - db: the database connection
+// - id: the ID of the user to be deleted
+// Returns:
+// - error: an error if the deletion fails
 func DeleteUser(db *gorm.DB, id uint) error {
 	result := db.Delete(&User{}, id)
 
@@ -105,6 +162,15 @@ func DeleteUser(db *gorm.DB, id uint) error {
 	return nil
 }
 
+// UpdateUser updates a user's information
+// Parameters:
+// - db: the database connection
+// - username: the username of the user to be updated
+// - currentPassword: the current password of the user
+// - updatedUser: the updated user information
+// Returns:
+// - User: the updated user
+// - error: an error if the update fails
 func UpdateUser(db *gorm.DB, username, currentPassword string, updatedUser User) (User, error) {
 	var user User
 	if err := db.Where("username = ?", username).First(&user).Error; err != nil {

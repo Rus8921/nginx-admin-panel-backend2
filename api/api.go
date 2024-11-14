@@ -25,7 +25,7 @@ func main() {
 		nginxServer.POST("/nginx_server_activate", Handlers.ActiveNginxServerHandler)
 		nginxServer.PUT("/nginx_server_change", Handlers.UpdateNginxServerHandler)
 		nginxServer.GET("/nginx_server_list", Handlers.GetNginxServersAllHandler)
-		//nginxServer.GET("/nginx_server_users")
+		nginxServer.GET("/site_list", Handlers.GetAllSitesOfServerHandler)
 		nginxServer.DELETE("/nginx_server_del", Handlers.DeleteNginxServerHandler)
 	}
 
@@ -33,11 +33,22 @@ func main() {
 	{
 		site.GET("/site_get", Handlers.GetSiteHandler)
 		site.GET("/site_list", Handlers.GetSitesAllHandler)
+		site.GET("/ssl_list", Handlers.GetAllSSLCertificatesHandler)
 		site.POST("/site_add", Handlers.AddSiteHandler)
 		site.POST("/site_activate", Handlers.ActivateOrUnactivateSiteHandler)
 		site.PUT("/site_change", Handlers.UpdateSiteHandler)
 		site.DELETE("/site_del", Handlers.DeleteSiteHandler)
 
+	}
+
+	ssl := router.Group("/ssl")
+	{
+		ssl.GET("/ssl_get", Handlers.GetSSLCertificateHandler)
+		ssl.GET("/ssl_list", Handlers.GetSSLCertificatesAllHandler)
+		ssl.POST("/ssl_add", Handlers.AddSSLCertificateHandler)
+		ssl.POST("/ssl_activate", Handlers.ActivateOrUnactivateSSLHandler)
+		ssl.DELETE("/ssl_del", Handlers.DeletSSLHandler)
+		ssl.PUT("/ssl_change", Handlers.UpdateSSLHandler)
 	}
 
 	admin := router.Group("/admin")
