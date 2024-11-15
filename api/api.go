@@ -60,6 +60,41 @@ func main() {
 		admin.DELETE("/admin_del", Handlers.DeleteAdminHandler)
 	}
 
+	permission := router.Group("/permission")
+	{
+		permission.GET("/permission_get", Handlers.GetPermissionHandler)
+		permission.GET("/permission_list", Handlers.GetPermissionsAllHandler)
+		permission.POST("/permission_add", Handlers.CreatePermissionHandler)
+		permission.DELETE("/permission_del", Handlers.DeletePermissionHandler)
+	}
+
+	upstream := router.Group("/upstream")
+	{
+		upstream.GET("/upstream_get", Handlers.GetUpstreamHandler)
+		upstream.GET("/upstream_list", Handlers.GetUpstreamesAllHandler)
+		upstream.POST("/upstream_add", Handlers.AddUpstreameHandler)
+		upstream.DELETE("/upstream_del", Handlers.DeleteUpstreamHandler)
+		upstream.PUT("/upstream_change", Handlers.UpdateUpstreamHandler)
+	}
+
+	configuration := router.Group("/configuration")
+	{
+		configuration.GET("/configuration_get", Handlers.GetConfigurationHandler)
+		configuration.GET("/configuration_list", Handlers.GetConfigurationsAllHandler)
+		configuration.POST("/configuration_add", Handlers.CreateConfigurationsHandler)
+		configuration.DELETE("/configuration_del", Handlers.DeleteConfigurationHandler)
+		configuration.PUT("/configuration_change", Handlers.UpdateConfigurationHandler)
+	}
+
+	location := router.Group("/location")
+	{
+		location.GET("/location_get", Handlers.GetLocationHandler)
+		location.GET("/location_list", Handlers.GetLocationsAllHandler)
+		location.POST("/location_add", Handlers.AddLocarionHandler)
+		location.DELETE("/location_del", Handlers.DeleteLocationHandler)
+		location.PUT("/location_change", Handlers.UpdateLocationHandler)
+	}
+
 	err := router.Run(":8080")
 	if err != nil {
 		return

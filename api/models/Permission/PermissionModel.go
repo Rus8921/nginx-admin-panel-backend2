@@ -44,3 +44,11 @@ func DeletePermission(db *gorm.DB, id uint) error {
 	}
 	return nil
 }
+
+func GetPermissionAll(db *gorm.DB) ([]Permission, error) {
+	var permissions []Permission
+	if err := db.Find(&permissions).Error; err != nil {
+		return nil, err
+	}
+	return permissions, nil
+}

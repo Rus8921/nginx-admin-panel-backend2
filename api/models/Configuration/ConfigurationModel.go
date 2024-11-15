@@ -8,7 +8,7 @@ import (
 // Configuration represents the configuration model
 type Configuration struct {
 	gorm.Model
-	parametrs string               `gorm:"not null"` // Configuration parameters
+	Parametrs string               `gorm:"not null"` // Configuration parameters
 	SiteID    uint                 // One-to-one relationship with Site
 	Upstream  []Upstreams.Upstream // One-to-many relationship with Upstreams
 }
@@ -32,6 +32,14 @@ func GetConfiguration(db *gorm.DB, id uint) (Configuration, error) {
 		return Configuration{}, err
 	}
 	return configuration, nil
+}
+
+func GetConfigurationAll(db *gorm.DB) ([]Configuration, error) {
+	var configurations []Configuration
+	if err := db.Find(&configurations).Error; err != nil {
+		return nil, err
+	}
+	return configurations, nil
 }
 
 // DeleteConfiguration deletes a configuration by ID

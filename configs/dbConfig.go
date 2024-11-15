@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/joho/godotenv"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Admin"
-	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Location"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/NginxServer"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Permission"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/SSLcertificat"
@@ -96,7 +95,7 @@ func InitDb() {
 	} else {
 		log.Printf("successfully migrated database")
 	}
-	if err := Db.AutoMigrate(&Location.Location{}); err != nil {
+	if err := Db.AutoMigrate(&models.Location{}); err != nil {
 		log.Fatalf("failed to migrate location database: %v", err)
 	} else {
 		log.Printf("successfully migrated database")
