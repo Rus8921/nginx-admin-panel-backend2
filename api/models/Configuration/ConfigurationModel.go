@@ -68,8 +68,8 @@ func UpdateConfiguration(db *gorm.DB, id uint, updatedConfiguration Configuratio
 	if err != nil {
 		return Configuration{}, err
 	}
-	if updatedConfiguration.parametrs != "" {
-		configuration.parametrs = updatedConfiguration.parametrs
+	if updatedConfiguration.Parametrs != "" {
+		configuration.Parametrs = updatedConfiguration.Parametrs
 	}
 	if err := db.Save(&configuration).Error; err != nil {
 		return Configuration{}, err
