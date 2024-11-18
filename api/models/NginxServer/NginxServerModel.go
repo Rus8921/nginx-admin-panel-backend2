@@ -85,6 +85,9 @@ func UpdateNginxServer(db *gorm.DB, id uint, updatedServer NginxServer) (NginxSe
 	if updatedServer.Domain != "" {
 		server.Domain = updatedServer.Domain
 	}
+	if updatedServer.ServerName != "" {
+		server.ServerName = updatedServer.ServerName
+	}
 	if err := db.Save(&server).Error; err != nil {
 		return NginxServer{}, fmt.Errorf("error saving server: %w", err)
 	}

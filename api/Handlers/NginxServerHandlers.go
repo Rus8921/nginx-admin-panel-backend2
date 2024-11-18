@@ -79,9 +79,10 @@ func DeleteNginxServerHandler(context *gin.Context) {
 
 func UpdateNginxServerHandler(context *gin.Context) {
 	var credentials struct {
-		Id     uint   `json:"id"`
-		Ip     string `json:"ip"`
-		Domain string `json:"domain"`
+		Id         uint   `json:"id"`
+		Ip         string `json:"ip"`
+		Domain     string `json:"domain"`
+		ServerName string `json:"servername"`
 	}
 	if err := context.ShouldBindJSON(&credentials); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()})
