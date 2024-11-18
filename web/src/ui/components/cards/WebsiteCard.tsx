@@ -22,7 +22,25 @@ function WebsiteCard({ data, ...rest }: ComponentProps<"div"> & { data: WebsiteI
         <Status status={status} />
       </div>
     </Card>
-  )
-}
+  );
+};
 
-export default WebsiteCard;
+export const WebsiteCardInsideServerPage = ({
+  data,
+}: {
+  data: WebsiteInterface;
+}) => {
+  let { name, url, status } = data;
+
+  return (
+    <div className="w-full p-8 bg-white border rounded-2xl border-scndry-clr active:shadow-none">
+      <div className="w-full flex flex-row gap-20 justify-between items-center">
+        <div className="flex flex-col gap-1">
+          <p className="text-md text-scndry-clr font-semibold">{name}</p>
+          <p className="text-scndry-txt-clr">{url}</p>
+        </div>
+        <Status status={status} />
+      </div>
+    </div>
+  );
+};

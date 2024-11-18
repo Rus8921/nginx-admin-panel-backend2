@@ -16,7 +16,7 @@ import { WebsiteIdPage } from "./routes/websites/WebsiteConfigs/WebsiteIdPage";
 import { AddWebsitePage } from "./routes/websites/AddWebsitePage";
 import { EditWebsitePage } from "./routes/websites/EditWebsitePage";
 import { ServersPage } from "./routes/servers/ServersPage";
-import { ServerIdPage } from "./routes/servers/ServerIdPage";
+import { ServerConfigPage } from "./routes/servers/ServerConfigPage";
 import { AddServerPage } from "./routes/servers/AddServerPage";
 import { EditServerPage } from "./routes/servers/EditServerPage";
 import { NotFoundErrorPage } from "./routes/errors/404";
@@ -67,14 +67,6 @@ const router = createBrowserRouter([
               </ProtectedRoute>
             ),
           },
-          {
-            path: ":websiteId/edit",
-            element: (
-              <ProtectedRoute>
-                <EditWebsitePage />
-              </ProtectedRoute>
-            ),
-          },
         ],
       },
       {
@@ -100,15 +92,7 @@ const router = createBrowserRouter([
             path: ":serverId",
             element: (
               <ProtectedRoute>
-                <ServerIdPage />
-              </ProtectedRoute>
-            ),
-          },
-          {
-            path: ":serverId/edit",
-            element: (
-              <ProtectedRoute>
-                <EditServerPage />
+                <ServerConfigPage />
               </ProtectedRoute>
             ),
           },

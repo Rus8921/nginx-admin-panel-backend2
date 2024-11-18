@@ -1,3 +1,5 @@
+import { WebsiteInterface } from ".";
+
 export interface IAllServersItem {
   id: number;
   serverName: string;
@@ -9,4 +11,14 @@ export interface IAllServersItem {
 
 export interface IAllServersResponse {
   servers: IAllServersItem[];
+}
+
+export interface IServerByIdResponse {
+  id: number;
+  serverName: string;
+  domainName: string;
+  ip: string;
+  active: "active" | "inactive";
+  sshKey: string;
+  connectedWebsites: WebsiteInterface[];
 }
