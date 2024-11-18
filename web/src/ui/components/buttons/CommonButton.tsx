@@ -3,28 +3,28 @@ import { CommonButtonTypes } from "../../../types/commonButtonTypes";
 import { useEffect } from "react";
 
 export const CommonButton = ({
-  isSubmit,
+  isSubmit = false,
   type,
   onClick,
   children,
 }: {
-  isSubmit: boolean;
-  type: Path<CommonButtonTypes>;
-  onClick: () => void;
-  children: any;
+  isSubmit?: boolean;
+  type?: Path<CommonButtonTypes>;
+  onClick?: () => void;
+  children?: any;
 }) => {
   let additionalClasses = "";
   if (type === "blueBgWhiteText") {
     additionalClasses = "bg-main-clr text-white";
   } else if (type === "redBgWhiteText") {
-    additionalClasses = "bg-transparent border border-red";
+    additionalClasses = "border-red text-red hover:bg-red hover:text-white active:border-scndry-txt-clr";
   } else if (type === "transparentBgMainText") {
     additionalClasses = "text-main-clr bg-transparent border border-main-clr";
   }
 
   return (
     <button
-      className={`w-[440px] h-11 rounded-md ${additionalClasses}`}
+      className={`w-[440px] h-11 border rounded-md flex justify-center gap-4 items-center text-md/10 tracking-normal uppercase whitespace-nowrap transition-colors ${additionalClasses}`}
       type={isSubmit ? "submit" : "button"}
       onClick={onClick}
     >

@@ -11,14 +11,14 @@ describe("<WebsitesPage />", () => {
 
   it("renders empty website page layout correctly", () => {
     const tree = renderer
-      .create(<WebsitesPage datasetId={1} />)
+      .create(<WebsitesPage datasetId="test_empty" />)
       .toJSON();
     expect(tree).toMatchSnapshot();
   });
 
   it("renders empty website page layout correctly", () => {
     const tree = renderer
-      .create(<WebsitesPage datasetId={3} />)
+      .create(<WebsitesPage datasetId="undefined" />)
       .toJSON();
     expect(tree).toMatchSnapshot();
   });

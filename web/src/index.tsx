@@ -12,7 +12,7 @@ import { UserPage } from "./routes/permissions/users/UserPage";
 import { AddUserPage } from "./routes/permissions/users/AddUserPage";
 import { EditUserPage } from "./routes/permissions/users/EditUserPage";
 import { WebsitesPage } from "./routes/websites/WebsitesPage";
-import { WebsiteIdPage } from "./routes/websites/WebsiteIdPage";
+import { WebsiteIdPage } from "./routes/websites/WebsiteConfigs/WebsiteIdPage";
 import { AddWebsitePage } from "./routes/websites/AddWebsitePage";
 import { EditWebsitePage } from "./routes/websites/EditWebsitePage";
 import { ServersPage } from "./routes/servers/ServersPage";

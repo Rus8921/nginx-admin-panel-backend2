@@ -5,9 +5,9 @@ import NavigationMenu from "./Navigation/NavigationMenu";
 
 export const MainLayout = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-bg-clr items-center">
+    <div className="w-full min-h-screen flex flex-col bg-bg-clr items-center">
       <Header />
-      <div className="w-full flex">
+      <div className="w-full flex  overflow-clip">
         <NavigationMenu />
         <Outlet />
       </div>

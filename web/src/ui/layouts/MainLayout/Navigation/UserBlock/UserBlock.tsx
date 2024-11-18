@@ -10,7 +10,7 @@ function UserBlock() {
 
   return isLoggedIn() ?
     (
-      <div className="px-3 flex justify-between gap-4 items-center">
+      <div className="px-3 flex justify-between gap-3 items-center">
         <UserAvatar login={user.login} />
         <UserInfo
           user={user}

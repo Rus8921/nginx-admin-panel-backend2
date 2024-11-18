@@ -54,7 +54,7 @@ module.exports = {
         "2xs": "0 0 30px 0 #b1b1b11A",
       },
       gridTemplateColumns: {
-        "adaptive-cards": "repeat(auto-fill, minmax(360px, 1fr))",
+        "adaptive-cards": "repeat(auto-fill, minmax(400px, 1fr))",
       },
       keyframes: {
         rotate360: {

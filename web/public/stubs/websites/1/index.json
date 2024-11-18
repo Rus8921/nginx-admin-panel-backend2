@@ -1,0 +1,8 @@
+{
+  "id": 0,
+  "name": "First website",
+  "url": "somedomain.com/",
+  "ipCount": 3,
+  "upstreamsCount": 2,
+  "status": "active"
+}

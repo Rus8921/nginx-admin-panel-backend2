@@ -24,23 +24,6 @@
   }
 
   h3 {
-    @apply text-lg/5 font-medium tracking-tight capitalize whitespace-nowrap text-scndry-txt-clr;
+    @apply text-lg/3 font-normal tracking-tight capitalize whitespace-nowrap text-scndry-txt-clr;
   }
 }
-
-/* to be moved to components */
-/*@layer components {
-   .button-text {
-    @apply text-md/10 font-normal tracking-normal uppercase whitespace-nowrap;
-    //line-height: 1.75em;
-  }
-
-  .light-horizontal-line {
-    @apply text-scndry-highlight h-[2px] w-full;
-  }
-
-  .horizontal-line {
-    @apply text-scndry-txt-clr h-[2px] w-full;
-  }
-}
-*/
