@@ -4,7 +4,7 @@ import { WebsiteInterface } from "../../../types";
 import ContentBreak from "../sections/ContentBreak";
 import { ComponentProps } from "react";
 
-function WebsiteCard({ data, ...rest }: ComponentProps<"div"> & { data: WebsiteInterface, isClickable: boolean }) {
+export default function WebsiteCard({ data, ...rest }: ComponentProps<"div"> & { data: WebsiteInterface, isClickable: boolean }) {
   let { id, name, url, ipCount, upstreamsCount, status } = data;
 
   return (

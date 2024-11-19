@@ -89,8 +89,8 @@ export const ServerConfigPage = () => {
       <PageSeparator text="Danger zone" isRed={true} />
       <CommonButton isSubmit={false} type={"redBgWhiteText"} onClick={() => {}}>
         <div className="flex flex-row justify-center items-center gap-3">
-          <Trash2 className="text-red" />
-          <span className="text-red">DELETE</span>
+          <Trash2/>
+          <span>DELETE</span>
         </div>
       </CommonButton>
     </main>
