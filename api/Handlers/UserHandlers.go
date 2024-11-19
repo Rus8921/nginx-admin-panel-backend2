@@ -2,6 +2,7 @@ package Handlers
 
 import (
 	"github.com/gin-gonic/gin"
+	auth "gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Auth"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/User"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/configs"
 	"net/http"
@@ -17,7 +18,12 @@ func RegistrationUserHandler(context *gin.Context) {
 		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
 		return
 	}
-	context.JSON(http.StatusCreated, gin.H{"message": "User registered successfully", "user": user})
+	token, err := auth.GenerateJWT(user.Username)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "could not generate token", "details": err.Error()})
+		return
+	}
+	context.JSON(http.StatusCreated, gin.H{"message": "User registered successfully", "user": user, "token": token})
 }
 
 func LoginUserHandler(context *gin.Context) {
@@ -34,7 +40,12 @@ func LoginUserHandler(context *gin.Context) {
 		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{"message": "User logged in", "user": user})
+	token, err := auth.GenerateJWT(user.Username)
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "could not generate token", "details": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"message": "User logged in", "token": token})
 }
 
 // почему-то так не работает, выглядит интереснее, но не работает

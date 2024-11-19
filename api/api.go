@@ -29,10 +29,17 @@ func main() {
 		nginxServer.DELETE("/nginx_server_del", Handlers.DeleteNginxServerHandler)
 	}
 
+	auth := router.Group("")
+	auth.Use(Handlers.JWTAuthMiddleware())
+	{
+		auth.GET("/site/site_get", Handlers.GetSiteHandler)
+		auth.GET("/site/site_list", Handlers.GetSitesAllHandler)
+	}
+
 	site := router.Group("/site")
 	{
-		site.GET("/site_get", Handlers.GetSiteHandler)
-		site.GET("/site_list", Handlers.GetSitesAllHandler)
+		//site.GET("/site_get", Handlers.GetSiteHandler)
+		//site.GET("/site_list", Handlers.GetSitesAllHandler)
 		site.GET("/ssl_list", Handlers.GetAllSSLCertificatesHandler)
 		site.POST("/site_add", Handlers.AddSiteHandler)
 		site.POST("/site_activate", Handlers.ActivateOrUnactivateSiteHandler)
