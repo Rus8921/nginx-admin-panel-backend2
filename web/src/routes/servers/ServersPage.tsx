@@ -3,6 +3,7 @@ import { IAllServersItem } from "../../types/servers";
 import nginxPanelApiService from "../../api/NginxPanelApiService";
 import { Loader } from "react-feather";
 import { ServerCard } from "../../ui/components/cards/ServerCard";
+import { Link } from "react-router-dom";
 
 export const ServersPage = ({ datasetId }: { datasetId?: number }) => {
   const [servers, setServers] = useState<IAllServersItem[]>([]);
@@ -26,7 +27,11 @@ export const ServersPage = ({ datasetId }: { datasetId?: number }) => {
       {servers.length === 0 ? (
         <></>
       ) : (
-        servers.map((item) => <ServerCard key={item.id} server={item} isClickable />)
+        servers.map((item) => 
+          <Link to={`/servers/${item.id}`} className="w-full">
+            <ServerCard key={item.id} server={item} isClickable />
+          </Link>
+        )
       )}
     </main>
   );
