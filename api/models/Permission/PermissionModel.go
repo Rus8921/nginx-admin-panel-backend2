@@ -52,3 +52,11 @@ func GetPermissionAll(db *gorm.DB) ([]Permission, error) {
 	}
 	return permissions, nil
 }
+
+func CheckPermission(db *gorm.DB, userID uint, siteID uint) (bool, error) {
+	var permission Permission
+	if err := db.Where("user_id = ? AND site_id = ?", userID, siteID).First(&permission).Error; err != nil {
+		return false, err
+	}
+	return true, nil
+}

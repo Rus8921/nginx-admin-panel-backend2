@@ -32,17 +32,21 @@ func main() {
 	auth := router.Group("")
 	auth.Use(Handlers.JWTAuthMiddleware())
 	{
+		auth.POST("/site/site_activate", Handlers.ActivateOrUnactivateSiteHandler)
+	}
+	perm := router.Group("")
+	perm.Use(Handlers.PermissionMiddleware())
+	{
 		auth.GET("/site/site_get", Handlers.GetSiteHandler)
-		auth.GET("/site/site_list", Handlers.GetSitesAllHandler)
 	}
 
 	site := router.Group("/site")
 	{
 		//site.GET("/site_get", Handlers.GetSiteHandler)
-		//site.GET("/site_list", Handlers.GetSitesAllHandler)
+		site.GET("/site_list", Handlers.GetSitesAllHandler)
 		site.GET("/ssl_list", Handlers.GetAllSSLCertificatesHandler)
 		site.POST("/site_add", Handlers.AddSiteHandler)
-		site.POST("/site_activate", Handlers.ActivateOrUnactivateSiteHandler)
+		//site.POST("/site_activate", Handlers.ActivateOrUnactivateSiteHandler)
 		site.PUT("/site_change", Handlers.UpdateSiteHandler)
 		site.DELETE("/site_del", Handlers.DeleteSiteHandler)
 
