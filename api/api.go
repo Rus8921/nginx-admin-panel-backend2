@@ -10,6 +10,9 @@ func main() {
 
 	configs.InitDb()
 	router := gin.Default()
+	//router.Use(
+	//	static.Serve("/", webapp.MustFs("")),
+	//)
 	user := router.Group("/user")
 	{
 		user.GET("/user_get", Handlers.FindUserHandler)

@@ -1,34 +1,18 @@
 package Handlers
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
+	logger "github.com/sirupsen/logrus"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Auth"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Permission"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/User"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/configs"
-	"log"
 	"net/http"
-	"os"
 	"strconv"
 )
 
 func PermissionMiddleware() gin.HandlerFunc {
 	return func(context *gin.Context) {
-
-		logFile, err := os.OpenFile("logs.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
-		if err != nil {
-			fmt.Println("Error opening log file:", err)
-			context.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
-			context.Abort()
-			return
-		}
-		defer logFile.Close()
-
-		logger := log.New(logFile, "", log.LstdFlags)
-
-		logger.Println("PermissionMiddleware executed")
-
 		tokenString := context.GetHeader("Authorization")
 		if tokenString == "" {
 			context.JSON(http.StatusUnauthorized, gin.H{"error": "Authorization required"})

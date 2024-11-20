@@ -120,3 +120,20 @@ func UpdateUserHandler(context *gin.Context) {
 	}
 	context.JSON(http.StatusOK, gin.H{"message": "User updated successfully", "user": user})
 }
+
+func GetUserByUsernameHandler(context *gin.Context) {
+	var credentials struct {
+		Username string `json:"username"`
+	}
+
+	if err := context.ShouldBindJSON(&credentials); err != nil {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()})
+	}
+
+	user, err := User.GetUserByUsername(configs.Db, credentials.Username)
+	if err != nil {
+		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{"message": "User found", "user": user})
+}
