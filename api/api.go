@@ -38,9 +38,10 @@ func main() {
 		auth.POST("/site/site_activate", Handlers.ActivateOrUnactivateSiteHandler)
 	}
 	perm := router.Group("")
+	perm.Use(Handlers.SetSiteIDMiddleware())
 	perm.Use(Handlers.PermissionMiddleware())
 	{
-		auth.GET("/site/site_get", Handlers.GetSiteHandler)
+		perm.GET("/site_get", Handlers.GetSiteHandler)
 	}
 
 	site := router.Group("/site")

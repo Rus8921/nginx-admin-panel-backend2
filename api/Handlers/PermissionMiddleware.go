@@ -2,13 +2,11 @@ package Handlers
 
 import (
 	"github.com/gin-gonic/gin"
-	logger "github.com/sirupsen/logrus"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Auth"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Permission"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/User"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/configs"
 	"net/http"
-	"strconv"
 )
 
 func PermissionMiddleware() gin.HandlerFunc {
@@ -36,15 +34,19 @@ func PermissionMiddleware() gin.HandlerFunc {
 		}
 		userID := user.ID
 
-		siteIDstr := context.Param("siteID")
-		siteID, err := strconv.Atoi(siteIDstr)
-		if err != nil {
-			context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid site ID"})
+		siteIDValue, exists := context.Get("siteID")
+		if !exists {
+			context.JSON(http.StatusBadRequest, gin.H{"error": "siteID not found in context"})
 			context.Abort()
 			return
 		}
 
-		logger.Printf("Checking permission for userID: %d, siteID: %d\n", userID, siteID)
+		siteID, ok := siteIDValue.(uint)
+		if !ok {
+			context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid siteID"})
+			context.Abort()
+			return
+		}
 
 		hasPermission, err := Permission.CheckPermission(configs.Db, userID, uint(siteID))
 		if err != nil {

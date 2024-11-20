@@ -19,22 +19,62 @@ func AddSiteHandler(context *gin.Context) {
 	}
 	context.JSON(http.StatusCreated, gin.H{"message": "Site added successfully", "Site": site})
 }
+func SetSiteIDMiddleware() gin.HandlerFunc {
+	return func(context *gin.Context) {
+		var credentials struct {
+			Id uint `json:"siteID"`
+		}
+		if err := context.ShouldBindJSON(&credentials); err != nil {
+			context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()})
+			context.Abort()
+			return
+		}
+		context.Set("siteID", credentials.Id)
+		context.Next()
+	}
+}
 
 func GetSiteHandler(context *gin.Context) {
-	var credentials struct {
-		Id uint `json:"id"`
-	}
-	if err := context.ShouldBindJSON(&credentials); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()})
+	siteIDValue, exists := context.Get("siteID")
+	if !exists {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "siteID not found in context"})
 		return
 	}
-	site, err := models.GetSite(configs.Db, credentials.Id)
+
+	siteID, ok := siteIDValue.(uint)
+	if !ok {
+		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid siteID"})
+		return
+	}
+
+	site, err := models.GetSite(configs.Db, siteID)
 	if err != nil {
 		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
 		return
 	}
 	context.JSON(http.StatusOK, gin.H{"message": "Site found", "Site": site})
 }
+
+//func GetSiteHandler(context *gin.Context) {
+//	siteIDValue, exists := context.Get("siteID")
+//	if !exists {
+//		context.JSON(http.StatusBadRequest, gin.H{"error": "siteID not found in context"})
+//		return
+//	}
+//
+//	siteID, ok := siteIDValue.(uint)
+//	if !ok {
+//		context.JSON(http.StatusBadRequest, gin.H{"error": "Invalid siteID"})
+//		return
+//	}
+//	site, err := models.GetSite(configs.Db, credentials.Id)
+//	if err != nil {
+//		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
+//		return
+//	}
+//	context.Set("siteID", credentials.Id)
+//	context.JSON(http.StatusOK, gin.H{"message": "Site found", "Site": site})
+//}
 
 func DeleteSiteHandler(context *gin.Context) {
 	var credentials struct {
