@@ -23,12 +23,13 @@ type Site struct {
 	SSlcerificate  []SSLcertificat.SSL         // multiple certificates for one site
 }
 
-// CreateSite creates a new site in the database with the given site details.
-// The site is initially set to inactive.
 func CreateSite(db *gorm.DB, site *Site) error {
 	site.IsActive = false
 	result := db.Create(site)
-	return result.Error
+	if result.Error != nil {
+		return result.Error
+	}
+	return nil
 }
 
 // GetSite retrieves a site from the database by its ID.

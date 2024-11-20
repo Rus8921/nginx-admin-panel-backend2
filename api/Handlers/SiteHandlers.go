@@ -2,8 +2,9 @@ package Handlers
 
 import (
 	"github.com/gin-gonic/gin"
-	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Site"
+	models "gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Site"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/configs"
+	"log"
 	"net/http"
 )
 
@@ -13,12 +14,42 @@ func AddSiteHandler(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, gin.H{"error": "invalid input", "details": err.Error()})
 		return
 	}
+
+	log.Printf("Received site data in AddSiteHandler: %+v", site)
+
 	if err := models.CreateSite(configs.Db, &site); err != nil {
 		context.JSON(http.StatusUnprocessableEntity, gin.H{"error": "invalid credentials", "details": err.Error()})
 		return
 	}
-	context.JSON(http.StatusCreated, gin.H{"message": "Site added successfully", "Site": site})
+
+	// Call GeneratorMiddleware logic here
+	generator := models.NewGeneratorModel("Template/main.conf", "Template/some_site.conf", "NginxConfigurators/main.conf", "NginxConfigurators/site.conf")
+	mainConfPath, siteConfPath, err := generator.CreateConfigCopies()
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create config copies", "details": err.Error()})
+		return
+	}
+
+	log.Printf("Config copies created: mainConfPath=%s, siteConfPath=%s", mainConfPath, siteConfPath)
+
+	if err := generator.UpdateSiteConfig(siteConfPath, site.SiteName, site.Domain); err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to update site config", "details": err.Error()})
+		return
+	}
+
+	if err := generator.IncludeSiteConfigInMain(mainConfPath, siteConfPath); err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to include site config in main", "details": err.Error()})
+		return
+	}
+
+	context.JSON(http.StatusCreated, gin.H{
+		"message": "Site added successfully",
+		"Site":    site,
+		//"mainConfPath": mainConfPath,
+		//"siteConfPath": siteConfPath,
+	})
 }
+
 func SetSiteIDMiddleware() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		var credentials struct {

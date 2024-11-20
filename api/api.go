@@ -37,6 +37,7 @@ func main() {
 	{
 		auth.POST("/site/site_activate", Handlers.ActivateOrUnactivateSiteHandler)
 	}
+
 	perm := router.Group("")
 	perm.Use(Handlers.SetSiteIDMiddleware())
 	perm.Use(Handlers.PermissionMiddleware())
