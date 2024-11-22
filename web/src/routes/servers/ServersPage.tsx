@@ -4,6 +4,8 @@ import nginxPanelApiService from "../../api/NginxPanelApiService";
 import { Loader } from "react-feather";
 import { ServerCard } from "../../ui/components/cards/ServerCard";
 import { Link } from "react-router-dom";
+import AddNewButton from "../../ui/components/buttons/AddNewButton";
+import { AddItemTargets } from "../../types";
 
 export const ServersPage = ({ datasetId }: { datasetId?: number }) => {
   const [servers, setServers] = useState<IAllServersItem[]>([]);
@@ -33,6 +35,7 @@ export const ServersPage = ({ datasetId }: { datasetId?: number }) => {
           </Link>
         )
       )}
+      <AddNewButton target={AddItemTargets.Server} />
     </main>
   );
 };

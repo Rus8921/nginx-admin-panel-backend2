@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import WebsiteCard from "../../ui/components/cards/WebsiteCard";
 import nginxPanelApiService from "../../api/NginxPanelApiService";
 import { NavLink } from "react-router-dom";
-import { WebsiteInterface } from "../../types";
+import { AddItemTargets, WebsiteInterface } from "../../types";
 import { Loader } from "react-feather";
+import AddNewButton from "../../ui/components/buttons/AddNewButton";
 
 export const WebsitesPage = ({ datasetId }: { datasetId?: string }) => {
   const [websites, setWebsites] = useState<WebsiteInterface[]>([]);
@@ -24,13 +25,14 @@ export const WebsitesPage = ({ datasetId }: { datasetId?: string }) => {
       <Loader className="absolute animate-spin text-main-clr" />
     </div>
   ) : (
-    <main className="w-full py-12 px-[4.5rem] grid grid-cols-adaptive-cards auto-rows-min justify-items-center gap-6 *:max-w-xl">
+    <main className="w-full h-fit py-12 px-[4.5rem] grid grid-cols-adaptive-cards auto-rows-fr items-stretch justify-items-center gap-6 *:max-w-xl">
       {!!websites.length &&
         websites.map((website) => (
           <NavLink to={`/websites/${website.id}`} className="w-full">
             <WebsiteCard key={website.id} data={website} isClickable />
           </NavLink>
-        ))}
+      ))}
+      <AddNewButton target={AddItemTargets.Website} />
     </main>
   );
 };

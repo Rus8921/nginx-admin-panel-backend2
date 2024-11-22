@@ -20,6 +20,7 @@ module.exports = {
       black: "#000000",
       green: "#5ce06c",
       red: "#cc332e",
+      inherit: "inherit"
     },
     fontFamily: {
       roboto: [
