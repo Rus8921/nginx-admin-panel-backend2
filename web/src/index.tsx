@@ -11,7 +11,7 @@ import { PermissionsPage } from "./routes/permissions/PermissionsPage";
 import { UserPage } from "./routes/permissions/users/UserPage";
 import { AddUserPage } from "./routes/permissions/users/AddUserPage";
 import { EditUserPage } from "./routes/permissions/users/EditUserPage";
-import { WebsitesPage } from "./routes/websites/WebsitesPage";
+import { WebsitesPage } from "./routes/websites/WebsitesPage/WebsitesPage";
 import { WebsiteIdPage } from "./routes/websites/WebsiteConfigs/WebsiteIdPage";
 import { AddWebsitePage } from "./routes/websites/AddWebsitePage";
 import { EditWebsitePage } from "./routes/websites/EditWebsitePage";
