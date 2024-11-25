@@ -14,6 +14,7 @@ export const WebsitesPage = ({ datasetId }: { datasetId?: string }) => {
   const [isNewWebsite, setIsNewWebsite] = useState(false);
 
   const contextValue: WebsitesPageContextInterface = {
+    websites: websites,
     isNewWebsite: isNewWebsite,
     setIsNewWebsite: setIsNewWebsite,
   }
@@ -37,8 +38,8 @@ export const WebsitesPage = ({ datasetId }: { datasetId?: string }) => {
       <main className="w-full h-fit py-12 px-[4.5rem] grid grid-cols-adaptive-cards auto-rows-fr items-stretch justify-items-center gap-6 *:max-w-xl">
         {!!websites.length &&
           websites.map((website) => (
-            <NavLink to={`/websites/${website.id}`} className="w-full">
-              <WebsiteCard key={website.id} data={website} isClickable />
+            <NavLink to={`/websites/${website.id}`} className="w-full" key={website.id} >
+              <WebsiteCard data={website} isClickable />
             </NavLink>
         ))}
         <AddNewButton target={AddItemTargets.Website} onClick={()=>{setIsNewWebsite(true)}} />

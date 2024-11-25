@@ -15,11 +15,11 @@ export const CommonButton = ({
 }) => {
   let additionalClasses = "";
   if (type === "blueBgWhiteText") {
-    additionalClasses = "bg-main-clr text-white";
+    additionalClasses = "bg-main-clr text-white active:bg-scndry-clr active:text-white hover:border-main-clr";
   } else if (type === "redBgWhiteText") {
     additionalClasses = "border-red text-red hover:bg-red hover:text-white active:border-scndry-txt-clr";
   } else if (type === "transparentBgMainText") {
-    additionalClasses = "text-main-clr bg-transparent border border-main-clr";
+    additionalClasses = "text-main-clr bg-transparent border border-main-clr hover:bg-main-clr hover:text-white active:bg-scndry-clr active:text-white";
   }
 
   return (
