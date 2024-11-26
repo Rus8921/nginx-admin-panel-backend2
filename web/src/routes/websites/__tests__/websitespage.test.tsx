@@ -1,5 +1,5 @@
 import renderer from "react-test-renderer"
-import { WebsitesPage } from "../WebsitesPage";
+import { WebsitesPage } from "../WebsitesPage/WebsitesPage";
 
 describe("<WebsitesPage />", () => {
   it("renders websites page layout with websites correctly", () => {

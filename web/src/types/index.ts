@@ -46,3 +46,8 @@ export interface WebsiteConfigInterface {
   locations: LocationInterface[],
   sslCertificates: SSLCertificateInterface[],
 }
+
+export enum AddItemTargets {
+  Website = "website",
+  Server = "server",
+}

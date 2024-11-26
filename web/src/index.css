@@ -27,3 +27,21 @@
     @apply text-lg/3 font-normal tracking-tight capitalize whitespace-nowrap text-scndry-txt-clr;
   }
 }
+
+@layer components {
+  .dashed-border {
+    
+    background-image: repeating-linear-gradient(0deg, #b1b1b1, #b1b1b1 11px, transparent 11px, transparent 22px, #b1b1b1 22px), repeating-linear-gradient(90deg, #b1b1b1, #b1b1b1 11px, transparent 11px, transparent 22px, #b1b1b1 22px), repeating-linear-gradient(180deg, #b1b1b1, #b1b1b1 11px, transparent 11px, transparent 22px, #b1b1b1 22px), repeating-linear-gradient(270deg, #b1b1b1, #b1b1b1 11px, transparent 11px, transparent 22px, #b1b1b1 22px);
+    background-size: 3px 100%, 100% 3px, 3px 100% , 100% 3px;
+    background-position: 0 0, 0 0, 100% 0, 0 100%;
+    background-repeat: no-repeat;
+  }
+
+  .dashed-border:hover {
+    background-image: repeating-linear-gradient(0deg, #32ade6, #32ade6 11px, transparent 11px, transparent 22px, #32ade6 22px), repeating-linear-gradient(90deg, #32ade6, #32ade6 11px, transparent 11px, transparent 22px, #32ade6 22px), repeating-linear-gradient(180deg, #32ade6, #32ade6 11px, transparent 11px, transparent 22px, #32ade6 22px), repeating-linear-gradient(270deg, #32ade6, #32ade6 11px, transparent 11px, transparent 22px, #32ade6 22px);
+  }
+
+  .dashed-border:active {
+    background-image: repeating-linear-gradient(0deg, #1a6d94, #1a6d94 11px, transparent 11px, transparent 22px, #1a6d94 22px), repeating-linear-gradient(90deg, #1a6d94, #1a6d94 11px, transparent 11px, transparent 22px, #1a6d94 22px), repeating-linear-gradient(180deg, #1a6d94, #1a6d94 11px, transparent 11px, transparent 22px, #1a6d94 22px), repeating-linear-gradient(270deg, #1a6d94, #1a6d94 11px, transparent 11px, transparent 22px, #1a6d94 22px);
+  }
+}
