@@ -10,7 +10,7 @@ export const PermissionsCard = ({ data }: { data: IPermission }) => {
       {data.users.map((user) => {
         return (
           <>
-            <div className="w-full flex flex-row justify-between items-center">
+            <div className="w-full grid grid-cols-4 grid-rows-1">
               <UserDataComponent data={user.userName} />
               <UserDataComponent data={user.userEmail} />
               <UserDataComponent
@@ -34,7 +34,7 @@ export const PermissionsCard = ({ data }: { data: IPermission }) => {
 
 const UserDataComponent = ({ data }: { data: any }) => {
   return (
-    <div className="w-1/4 whitespace-nowrap overflow-hidden text-ellipsis h-6 text-scndry-txt-clr">
+    <div className="whitespace-nowrap overflow-hidden text-ellipsis h-6 text-scndry-txt-clr self-center justify-self-start">
       {data}
     </div>
   );
