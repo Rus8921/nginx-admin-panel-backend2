@@ -1,5 +1,5 @@
 import renderer from "react-test-renderer"
-import { ServersPage } from "../ServersPage";
+import { ServersPage } from "../ServersPage/ServersPage";
 
 describe("<ServersPage />", () => {
   it("renders servers page layout correctly", () => {
