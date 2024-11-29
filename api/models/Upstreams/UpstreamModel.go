@@ -3,7 +3,8 @@ package Upstreams
 import "gorm.io/gorm"
 
 // Upstream represents the upstream model with GORM's built-in fields and custom fields.
-type Upstream struct {
+type Upstream struct { // подвязать к локейшен, а локейшен к конфигурации, а конфигу к сайту. У многих локейшенов может быть 1 апстрим
+	// пускай есть дефолтный апстрим у сайта, к сайту мы можем привзяывать локейшены, которые будут наследовать апстримы сайта, но можно его изменить
 	gorm.Model
 	ConfigurationID uint   // ID of the configuration
 	Priority        uint   `gorm:"not nul"` // Priority of the upstream
