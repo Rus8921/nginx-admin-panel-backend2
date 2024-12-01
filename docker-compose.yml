@@ -1,16 +1,16 @@
-version: '3.8'
+#version: '3.8'
 
 services:
   app:
-#    build:
-#      context: .
-#      dockerfile: build/Dockerfile
-#      args:
-#        - BUILD_ENV=production
-#        - GO_VER=1.23
-#        - VERSION=0.0.1
-#        - ALPINE_VER=3.20
-    image: nginx-admin-panel-backend:latest
+    build:
+      context: .
+      dockerfile: build/Dockerfile
+      args:
+        - BUILD_ENV=production
+        - GO_VER=1.23
+        - VERSION=0.0.1
+        - ALPINE_VER=3.20
+#    image: nginx-admin-panel-backend:latest
     ports:
       - "8080:8080"
     environment:
@@ -20,9 +20,12 @@ services:
       - DB_NAME=your_database_name
       - DB_PORT=5432
     depends_on:
-      - postgres
-    networks:
-      - aminpanelnginx
+      postgres:
+        condition: service_healthy
+    links:
+      - "postgres:postgres"
+#    networks:
+#      - aminpanelnginx
 
   postgres:
     image: postgres:latest
@@ -30,11 +33,15 @@ services:
     environment:
       POSTGRES_USER: your_username
       POSTGRES_PASSWORD: your_password
-      POSTGRES_DB: your_database_name
     ports:
       - "5432:5432"
-    networks:
-      - aminpanelnginx
+#    networks:
+#      - aminpanelnginx
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U your_username"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
-networks:
-  aminpanelnginx:
+#networks:
+#  aminpanelnginx:

@@ -24,7 +24,7 @@ RUN cd web && \
     cd ..
 
 # Build the Go application for the specified architecture
-RUN  go build -tags musl -o backend ./cmd/backend
+RUN  go build -tags musl -o backend ./api
 
 # Build an application image.
 FROM alpine:${ALPINE_VER}
@@ -39,5 +39,8 @@ RUN apk update && \
 WORKDIR /app
 COPY --from=builder /repo/backend /app/backend
 RUN chmod +x /app/backend
+
+# TODO: remove this line.
+RUN touch /app/.env
 
 CMD ["/app/backend"]
