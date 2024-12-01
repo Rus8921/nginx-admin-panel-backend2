@@ -1,18 +1,20 @@
 package main
 
 import (
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/Handlers"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/configs"
+	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/internal/webapp"
 )
 
 func main() {
 
 	configs.InitDb()
 	router := gin.Default()
-	//router.Use(
-	//	static.Serve("/", webapp.MustFs("")),
-	//)
+	router.Use(
+		static.Serve("/", webapp.MustFs("")),
+	)
 	user := router.Group("/user")
 	{
 		user.GET("/user_get", Handlers.FindUserHandler)

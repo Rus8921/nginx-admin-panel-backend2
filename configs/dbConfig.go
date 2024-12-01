@@ -2,6 +2,9 @@ package configs
 
 import (
 	"fmt"
+	"log"
+	"os"
+
 	"github.com/joho/godotenv"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/Admin"
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/NginxServer"
@@ -12,7 +15,6 @@ import (
 	"gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend.git/api/models/User"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
-	"log"
 )
 
 var Db *gorm.DB
@@ -36,21 +38,22 @@ func InitDb() {
 	//	os.Getenv("DB_PORT"),
 	//)
 
-	dbHost := "localhost"
+	dbHost := os.Getenv("DB_HOST")
+	//dbHost := "localhost"
 	dbUser := "your_username"
 	dbPassword := "your_password"
-	dbName := "your_database_name"
+	//dbName := "your_database_name"
 	dbPort := "5432"
 
 	// Form the connection string from hardcoded values
-	dataForDb := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+	dataForDb := fmt.Sprintf("host=%s user=%s password=%s port=%s sslmode=disable",
 		dbHost,
 		dbUser,
 		dbPassword,
-		dbName,
+		//dbName,
 		dbPort,
 	)
-	log.Printf("Connecting to database with host=%s user=%s dbname=%s port=%s", dbHost, dbUser, dbName, dbPort)
+	log.Printf("Connecting to database with host=%s user=%s port=%s", dbHost, dbUser /* dbName, */, dbPort)
 
 	// Подключаемся к базе данных
 	Db, err = gorm.Open(postgres.Open(dataForDb), &gorm.Config{})

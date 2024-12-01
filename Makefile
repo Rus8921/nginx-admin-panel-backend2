@@ -3,7 +3,7 @@ APP_NAME = backend
 BUILD_DIR = .
 WEB_APP_DIR = ./web/
 WEB_APP_BUILD_DIR = ./web/build
-MAIN_SRC = cmd/backend/main.go
+MAIN_SRC = cmd/api/api.go
 
 # Default target
 all: build
@@ -36,6 +36,7 @@ docker-image:
 		--build-arg ALPINE_VER=3.20
 
 docker-run:
+	docker-compose build
 	docker-compose up
 
 .PHONY: all build run clean docker-image docker-run
