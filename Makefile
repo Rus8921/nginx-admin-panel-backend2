@@ -3,7 +3,7 @@ APP_NAME = backend
 BUILD_DIR = .
 WEB_APP_DIR = ./web/
 WEB_APP_BUILD_DIR = ./web/build
-MAIN_SRC = cmd/api/api.go
+MAIN_SRC = тзapi/api.go
 
 # Default target
 all: build

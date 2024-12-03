@@ -22,25 +22,25 @@ func AddSiteHandler(context *gin.Context) {
 		return
 	}
 
-	// Call GeneratorMiddleware logic here
-	generator := models.NewGeneratorModel("Template/main.conf", "Template/some_site.conf", "NginxConfigurators/main.conf", "NginxConfigurators/site.conf")
-	mainConfPath, siteConfPath, err := generator.CreateConfigCopies()
-	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create config copies", "details": err.Error()})
-		return
-	}
-
-	log.Printf("Config copies created: mainConfPath=%s, siteConfPath=%s", mainConfPath, siteConfPath)
-
-	if err := generator.UpdateSiteConfig(siteConfPath, site.SiteName, site.Domain); err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to update site config", "details": err.Error()})
-		return
-	}
-
-	if err := generator.IncludeSiteConfigInMain(mainConfPath, siteConfPath); err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to include site config in main", "details": err.Error()})
-		return
-	}
+	//// Call GeneratorMiddleware logic here
+	//generator := models.NewGeneratorModel("Template/main.conf", "Template/some_site.conf", "NginxConfigurators/main.conf", "NginxConfigurators/site.conf")
+	//mainConfPath, siteConfPath, err := generator.CreateConfigCopies()
+	//if err != nil {
+	//	context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to create config copies", "details": err.Error()})
+	//	return
+	//}
+	//
+	//log.Printf("Config copies created: mainConfPath=%s, siteConfPath=%s", mainConfPath, siteConfPath)
+	//
+	//if err := generator.UpdateSiteConfig(siteConfPath, site.SiteName, site.Domain); err != nil {
+	//	context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to update site config", "details": err.Error()})
+	//	return
+	//}
+	//
+	//if err := generator.IncludeSiteConfigInMain(mainConfPath, siteConfPath); err != nil {
+	//	context.JSON(http.StatusInternalServerError, gin.H{"error": "failed to include site config in main", "details": err.Error()})
+	//	return
+	//}
 
 	context.JSON(http.StatusCreated, gin.H{
 		"message": "Site added successfully",
