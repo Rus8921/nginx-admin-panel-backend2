@@ -3,8 +3,8 @@
 
 ## Description
 
-This repository of the our project contains the code for frontend part, you can find research part here https://gitlab.pg.innopolis.university/antiddos/research
-
+This repository is the copy from gitlab repository of our team https://gitlab.pg.innopolis.university/antiddos/nginx-admin-panel-backend
+You can see here all backend and frontend part of our project, you can look at research part and documents here https://gitlab.pg.innopolis.university/antiddos/research
 
 
 
